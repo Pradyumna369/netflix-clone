@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom"
-const Header = ({scrolled}: {scrolled:boolean}) => {
-    const scroll = scrolled;
+import { Link } from "react-router-dom";
+import { useState } from "react";
+const Header = () => {
+    const [scroll, setScroll] = useState(0.0);
+    window.addEventListener("scroll", () => setScroll(window.scrollY));
     return(
         <div className="flex relative items-center px-4 justify-between sticky top-0 bg-linear-to-b from-black to-transparent">
-            <div className={`absolute inset-0 bg-black transition-opacity duration-500 ease-in-out -z-1 ${scroll ? "opacity-100" : "opacity-0"}`}/>
-            <div className="flex items-center">
-                <Link to="/">
-                    <img src="Netflix_Logo_RGB.png" alt="NETFLIX" className="w-40 h-16 px-7 py-2" />
-                </Link>
+            <div className={`absolute inset-0 bg-black transition-opacity duration-500 ease-in-out -z-1 ${scroll > 0 ? "opacity-100" : "opacity-0"}`}/>
+            <div className="flex items-center flex-none">
+                <div className="flex-none">
+                    <Link to="/">
+                        <img src="Netflix_Logo_RGB.png" alt="NETFLIX" className="w-40 h-16 px-7 py-2" />
+                    </Link>
+                </div>
                 <p className="px-3 text-sm text-white font-semibold">Home</p>
                 <p className="px-3 text-sm text-white">Shows</p>
                 <p className="px-3 text-sm text-white">Movies</p>
@@ -16,7 +20,7 @@ const Header = ({scrolled}: {scrolled:boolean}) => {
                 <p className="px-3 text-sm text-white">My List</p>
                 <p className="px-3 text-sm text-white">Browse by languages</p>
             </div>
-            <div className="flex items-center w-65 justify-between pr-10">
+            <div className="flex items-center w-65 justify-between pr-10 flex-none">
                 <img src="search_icon.png" alt="Search..." />
                 <p className="text-sm text-white">Children</p>
                 <img src="bell.png" alt="Notifications" className="w-6 h-6"/>
