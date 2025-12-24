@@ -1,55 +1,55 @@
 import Header from "../Header";
-const HomePage = () => {
-    return(
-       <> 
-        <Header/> 
-        <>
-            This is home page
-            <p>
-				Each and every modern webpage that we create today tend to have
-				user interactions. When the user interacts with the web
-				application events are fired. That event can be a mouse click, a
-				keypress, or something rare like connecting the battery with a
-				charger. From the developer side, we need to ‘listen’ to such
-				events and then make our application respond accordingly. This
-				is called event handling that provides a dynamic interface to a
-				webpage. Like JavaScript DOM, React also provides us some
-				built-in methods to create a listener that responds accordingly
-				to a specific event.Now we will look at certain rules to keep in
-				mind while creating events in React. camelCase Convention:
-				Instead of using lowercase we use camelCase while giving names
-				of the react events. That simply means we write ‘onClick’
-				instead of ‘onclick’. Pass the event as a function: In React we
-				pass a function enclosed by curly brackets as the event listener
-				or event handler, unlike HTML where we pass the event handler or
-				event listener as a string. Prevent the default: Just returning
-				false inside the JSX element does not prevent the default
-				behavior in react. Instead, we have to call the ‘preventDefault’
-				method directly inside the event handler function. Each and
-				every modern webpage that we create today tend to have user
-				interactions. When the user interacts with the web application
-				events are fired. That event can be a mouse click, a keypress,
-				or something rare like connecting the battery with a charger.
-				From the developer side, we need to ‘listen’ to such events and
-				then make our application respond accordingly. This is called
-				event handling that provides a dynamic interface to a webpage.
-				Like JavaScript DOM, React also provides us some built-in
-				methods to create a listener that responds accordingly to a
-				specific event.Now we will look at certain rules to keep in mind
-				while creating events in React. camelCase Convention: Instead of
-				using lowercase we use camelCase while giving names of the react
-				events. That simply means we write ‘onClick’ instead of
-				‘onclick’. Pass the event as a function: In React we pass a
-				function enclosed by curly brackets as the event listener or
-				event handler, unlike HTML where we pass the event handler or
-				event listener as a string. Prevent the default: Just returning
-				false inside the JSX element does not prevent the default
-				behavior in react. Instead, we have to call the ‘preventDefault’
-				method directly inside the event handler function.
-			</p>
-        </>
-       </> 
-    )
-}
+import Videos from "../Videos";
+import useVideo from "../store";
+import {useRef} from "react";
+
+const HomePage = ({props}:any) => {
+    const title = "SAMPLE TITLE";
+    const subTitle = "SAMPLE SUBTITLE";
+    const currentElement = useVideo((state:any) => state.currentElement);
+    const vidRef = useRef(null);
+    if (currentElement === 'pause'){
+        vidRef.current.play();
+    } else if(currentElement !== ""){
+        vidRef.current.pause();
+    }
+  return (
+    <div>
+      <Header />
+            <div className="relative w-full h-full">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className="object-cover h-full aspect-16/9"
+                    ref={vidRef}
+                >
+                    <source src="/main-sample.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute top-3/7 px-4">
+                <div className="leading-9">
+                    <img
+                    src="Netflix_Logo_RGB.png"
+                    alt="NETFLIX"
+                    className="w-40 h-11 px-7"
+                    />
+                </div>
+                <div className="text-white px-10 font-black text-4xl/6 tracking-widest">
+                    {title}
+                </div>
+                <div className="text-white pl-17 text-2xl/15 tracking-wider">
+                    {subTitle}
+                </div>
+                </div>
+
+                <div className="absolute top-4/5 z-1 px-14">
+                    <Videos/>
+                </div>
+                <div className="absolute bottom-0 h-2/7 w-full bg-linear-to-t from-black to-transparent">
+                </div>
+            </div>
+    </div>
+  );
+};
 
 export default HomePage;
