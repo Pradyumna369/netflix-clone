@@ -1,6 +1,6 @@
 import "./carousel.css";
 import { useEffect } from "react";
-import {throttle} from "lodash"
+import {throttle} from "lodash";
 
 const Carousel = ({data}:{data: Array<any>}) => {
     const calculateProgressBar = (progressBar) => {
@@ -30,7 +30,7 @@ const Carousel = ({data}:{data: Array<any>}) => {
     const throttleProgressBar = throttle(() => {
         document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
     },500);
-
+ 
     window.addEventListener("resize", throttleProgressBar);    
     
     const handleForward = (e:any) => {
@@ -81,7 +81,8 @@ const Carousel = ({data}:{data: Array<any>}) => {
         if (sliderIndex === 0) {
             slider.style.setProperty("--slider-index", progressBarItemCount - 1);
             setTimeout(() => {
-                progressBar.children[progressBarItemCount - 1].classList.add("active")}, 500
+                progressBar.children[progressBarItemCount - 1].
+                classList.add("active")}, 500
             )       
         } else {
             slider.style.setProperty("--slider-index", sliderIndex - 1);
