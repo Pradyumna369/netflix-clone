@@ -22,14 +22,15 @@ const Carousel = ({data}:{data: Array<any>}) => {
     }
 
     useEffect(() => {
-        document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
-    }, []);
-
-    const throttleProgressBar = throttle(() => {
+        document.querySelectorAll(".progress-bar").forEach(calculateProgressBar);
+        const throttleProgressBar = throttle(() => {
         document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
     },500);
  
-    window.addEventListener("resize", throttleProgressBar);    
+    window.addEventListener("resize", throttleProgressBar);
+    }, []);
+
+        
     
     const handleForward = (e:any) => {
         const progressBar = e.target.closest(".row").
