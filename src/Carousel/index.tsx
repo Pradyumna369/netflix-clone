@@ -44,13 +44,21 @@ const Carousel = ({data}:{data: Array<any>}) => {
         const itemsPerScreen = parseInt(getComputedStyle(slider)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
-        progressBar.children[sliderIndex].classList.remove("active");
+        setTimeout(() => {
+            progressBar.children[sliderIndex].classList.remove("active");
+        }, 500);
+        
         if (sliderIndex === progressBarItemCount - 1) {
             slider.style.setProperty("--slider-index", 0);
-            progressBar.children[0].classList.add("active");
+            setTimeout(() => {
+                progressBar.children[0].classList.add("active");
+            }, 500);
+            
         } else {
             slider.style.setProperty("--slider-index", sliderIndex + 1);
-            progressBar.children[sliderIndex + 1].classList.add("active"); 
+            setTimeout(() => {
+                progressBar.children[sliderIndex + 1].classList.add("active"); 
+            }, 500);
         }
     }
 
@@ -65,18 +73,22 @@ const Carousel = ({data}:{data: Array<any>}) => {
         const itemsPerScreen = parseInt(getComputedStyle(slider)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
-        setTimeout(
-            progressBar.children[sliderIndex].classList.remove("active"), 1000
+        setTimeout(() => {
+            progressBar.children[sliderIndex].classList.remove("active")
+        }, 500
         );
         
         if (sliderIndex === 0) {
             slider.style.setProperty("--slider-index", progressBarItemCount - 1);
-            setTimeout(
-                progressBar.children[progressBarItemCount - 1].classList.add("active"), 250
+            setTimeout(() => {
+                progressBar.children[progressBarItemCount - 1].classList.add("active")}, 500
             )       
         } else {
             slider.style.setProperty("--slider-index", sliderIndex - 1);
-            progressBar.children[sliderIndex - 1].classList.add("active"); 
+            setTimeout(() => {
+                progressBar.children[sliderIndex - 1].classList.add("active");
+            }, 500);
+             
         } 
     }
 
