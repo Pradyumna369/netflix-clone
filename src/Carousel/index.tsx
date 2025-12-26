@@ -5,80 +5,43 @@ import {throttle} from "lodash";
 const Carousel = ({data}:{data: Array<any>}) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const sliderRef = useRef(null);
-    const progressBarRef = useRef(null);
-    const calculateProgressBar = () => {
-        progressBarRef.current.innerHTML = ""
-        const itemCount = sliderRef.current.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
-                                .getPropertyValue("--items-per-screen"));
-        const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
-        for (let i = 0; i < progressBarItemCount; i++) {
-            const barItem = document.createElement("div")
-            barItem.classList.add("progress-item")
-            if (i === sliderIndex) {
-                barItem.classList.add("active")
-            }
-            progressBarRef.current.append(barItem)
+    const [itemCount, setItemCount] = useState(0);
+    const [itemsPerScreen, setItemsPerScreen] = useState(0);
+    const [progressBarItemCount, setProgressBarItemCount] = useState(0);
+
+    const throttleProgressBar = throttle(() => {
+        setItemsPerScreen(parseInt(getComputedStyle(sliderRef.current)
+                                .getPropertyValue("--items-per-screen")));
+    }, 100);
+
+    useEffect(() => { 
+        setItemCount(sliderRef.current.children.length);
+        setItemsPerScreen(parseInt(getComputedStyle(sliderRef.current)
+                                    .getPropertyValue("--items-per-screen")));
+        window.addEventListener("resize", throttleProgressBar);
+
+        return () => {
+            window.removeEventListener("resize", throttleProgressBar);
         }
-    }
-
-    const throttleProgressBar = throttle(calculateProgressBar, 500);
-
-    useEffect(() => {
-    calculateProgressBar();
-
-    window.addEventListener("resize", throttleProgressBar);
-
-    return () => {
-        window.removeEventListener("resize", throttleProgressBar);
-    }
     }, []);
 
-    const handleForward = (e:any) => {
-        const itemCount = sliderRef.current.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
-                                .getPropertyValue("--items-per-screen"));
-        const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
-        setTimeout(() => {
-            progressBarRef.current.children[sliderIndex].classList.remove("active");
-        }, 500);
-        
+    useEffect(() => {
+        setProgressBarItemCount(Math.ceil(itemCount / itemsPerScreen));
+    }, [itemsPerScreen]);
+
+    const handleForward = () => {
         if (sliderIndex === progressBarItemCount - 1) {
-            setSliderIndex(0);
-            setTimeout(() => {
-                progressBarRef.current.children[0].classList.add("active");
-            }, 500);
-            
+                setSliderIndex(0);
         } else {
-            setSliderIndex(sliderIndex + 1)
-            setTimeout(() => {
-                progressBarRef.current.children[sliderIndex + 1].classList.add("active"); 
-            }, 500);
+                setSliderIndex(sliderIndex + 1);
         }
     }
 
-    const handleBackward = (e:any) => {
-        const itemCount = sliderRef.current.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
-                                .getPropertyValue("--items-per-screen"));
-        const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
-        setTimeout(() => {
-            progressBarRef.current.children[sliderIndex].classList.remove("active")
-        }, 500
-        );
-        
+    const handleBackward = () => {
         if (sliderIndex === 0) {
-            setSliderIndex(progressBarItemCount - 1)
-            setTimeout(() => {
-                progressBarRef.current.children[progressBarItemCount - 1].
-                classList.add("active")}, 500
-            )       
+                setSliderIndex(progressBarItemCount - 1); 
         } else {
-            setSliderIndex(sliderIndex - 1)
-            setTimeout(() => {
-                progressBarRef.current.children[sliderIndex - 1].classList.add("active");
-            }, 500);
-             
+                setSliderIndex(sliderIndex - 1);
         } 
     }
 
@@ -86,9 +49,15 @@ const Carousel = ({data}:{data: Array<any>}) => {
         <div className="row">
         <div className="header">
             <h3 className="title text-white justify-between">Title</h3>
-            <div className="progress-bar"
-                ref={progressBarRef}
-            >
+            <div className="progress-bar">
+                {
+                    Array.from({length: progressBarItemCount}).map((_,i) => (
+                        <div key={i} 
+                        className={["progress-item",i===sliderIndex?"active":""].join(" ")}
+                        > 
+                        </div>
+                    ))
+                }
             </div>
         </div>
         <div className="carousel">
