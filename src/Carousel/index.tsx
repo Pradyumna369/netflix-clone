@@ -5,8 +5,9 @@ import {throttle} from "lodash";
 const Carousel = ({data}:{data: Array<any>}) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const sliderRef = useRef(null);
-    const calculateProgressBar = (progressBar) => {
-        progressBar.innerHTML = ""
+    const progressBarRef = useRef(null);
+    const calculateProgressBar = () => {
+        progressBarRef.current.innerHTML = ""
         const itemCount = sliderRef.current.children.length;
         const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
@@ -17,68 +18,65 @@ const Carousel = ({data}:{data: Array<any>}) => {
             if (i === sliderIndex) {
                 barItem.classList.add("active")
             }
-            progressBar.append(barItem)
+            progressBarRef.current.append(barItem)
         }
     }
 
+    const throttleProgressBar = throttle(calculateProgressBar, 500);
+
     useEffect(() => {
-        document.querySelectorAll(".progress-bar").forEach(calculateProgressBar);
-        const throttleProgressBar = throttle(() => {
-        document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
-    },500);
- 
+    calculateProgressBar();
+
     window.addEventListener("resize", throttleProgressBar);
+
+    return () => {
+        window.removeEventListener("resize", throttleProgressBar);
+    }
     }, []);
 
-        
-    
     const handleForward = (e:any) => {
-        const progressBar = e.target.closest(".row").
-                            querySelector(".progress-bar");
         const itemCount = sliderRef.current.children.length;
         const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
         setTimeout(() => {
-            progressBar.children[sliderIndex].classList.remove("active");
+            progressBarRef.current.children[sliderIndex].classList.remove("active");
         }, 500);
         
         if (sliderIndex === progressBarItemCount - 1) {
             setSliderIndex(0);
             setTimeout(() => {
-                progressBar.children[0].classList.add("active");
+                progressBarRef.current.children[0].classList.add("active");
             }, 500);
             
         } else {
             setSliderIndex(sliderIndex + 1)
             setTimeout(() => {
-                progressBar.children[sliderIndex + 1].classList.add("active"); 
+                progressBarRef.current.children[sliderIndex + 1].classList.add("active"); 
             }, 500);
         }
     }
 
     const handleBackward = (e:any) => {
-        const progressBar = e.target.closest(".row").
-                            querySelector(".progress-bar");
         const itemCount = sliderRef.current.children.length;
         const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
         setTimeout(() => {
-            progressBar.children[sliderIndex].classList.remove("active")
+            progressBarRef.current.children[sliderIndex].classList.remove("active")
         }, 500
         );
         
         if (sliderIndex === 0) {
             setSliderIndex(progressBarItemCount - 1)
             setTimeout(() => {
-                progressBar.children[progressBarItemCount - 1].
+                progressBarRef.current.children[progressBarItemCount - 1].
                 classList.add("active")}, 500
             )       
         } else {
             setSliderIndex(sliderIndex - 1)
             setTimeout(() => {
-                progressBar.children[sliderIndex - 1].classList.add("active");
+                progressBarRef.current.children[sliderIndex - 1].classList.add("active");
             }, 500);
              
         } 
@@ -88,7 +86,9 @@ const Carousel = ({data}:{data: Array<any>}) => {
         <div className="row">
         <div className="header">
             <h3 className="title text-white justify-between">Title</h3>
-            <div className="progress-bar">
+            <div className="progress-bar"
+                ref={progressBarRef}
+            >
             </div>
         </div>
         <div className="carousel">
