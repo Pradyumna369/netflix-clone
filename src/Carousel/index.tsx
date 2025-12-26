@@ -1,33 +1,48 @@
 import "./carousel.css";
 import { useEffect, useRef, useState } from "react";
-import {throttle} from "lodash";
+import throttle from "lodash/throttle";
 
-const Carousel = ({data}:{data: Array<any>}) => {
+const Carousel = ({data}:{data: string[]}) => {
     const [sliderIndex, setSliderIndex] = useState(0);
-    const sliderRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const sliderRef = useRef<HTMLDivElement | null>(null);
     const [itemCount, setItemCount] = useState(0);
-    const [itemsPerScreen, setItemsPerScreen] = useState(0);
-    const [progressBarItemCount, setProgressBarItemCount] = useState(0);
-
-    const throttleProgressBar = throttle(() => {
-        setItemsPerScreen(parseInt(getComputedStyle(sliderRef.current)
-                                .getPropertyValue("--items-per-screen")));
-    }, 100);
+    const [itemsPerScreen, setItemsPerScreen] = useState(1);
+    const progressBarItemCount = itemsPerScreen > 0 ? 
+        Math.ceil(itemCount / itemsPerScreen): 0;
+    const TRANSITION_MS = 500;
 
     useEffect(() => { 
-        setItemCount(sliderRef.current.children.length);
-        setItemsPerScreen(parseInt(getComputedStyle(sliderRef.current)
-                                    .getPropertyValue("--items-per-screen")));
+        const slider = sliderRef.current
+        if (!slider) return;
+        setItemCount(slider.children.length);
+        const value = parseInt(getComputedStyle(slider)
+                                    .getPropertyValue("--items-per-screen"));
+        setItemsPerScreen(Number.isNaN(value) ? 1 : value);
+        const throttleProgressBar = throttle(() => {
+        setItemsPerScreen(parseInt(getComputedStyle(slider)
+                                .getPropertyValue("--items-per-screen")));
+        }, 100);
         window.addEventListener("resize", throttleProgressBar);
 
         return () => {
             window.removeEventListener("resize", throttleProgressBar);
         }
-    }, []);
+    }, [data]);
 
     useEffect(() => {
-        setProgressBarItemCount(Math.ceil(itemCount / itemsPerScreen));
-    }, [itemsPerScreen]);
+        if (sliderIndex >= progressBarItemCount) {
+            setSliderIndex(Math.max(progressBarItemCount - 1, 0));
+        }
+    },[progressBarItemCount]);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setActiveIndex(sliderIndex);
+        }, TRANSITION_MS);
+
+        return () => clearTimeout(timeout);
+    }, [sliderIndex]);
 
     const handleForward = () => {
         if (sliderIndex === progressBarItemCount - 1) {
@@ -53,7 +68,7 @@ const Carousel = ({data}:{data: Array<any>}) => {
                 {
                     Array.from({length: progressBarItemCount}).map((_,i) => (
                         <div key={i} 
-                        className={["progress-item",i===sliderIndex?"active":""].join(" ")}
+                        className={`progress-item ${i === activeIndex ? "active":""}`}
                         > 
                         </div>
                     ))
