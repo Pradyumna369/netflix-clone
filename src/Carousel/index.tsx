@@ -1,17 +1,15 @@
 import "./carousel.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import {throttle} from "lodash";
 
 const Carousel = ({data}:{data: Array<any>}) => {
+    const [sliderIndex, setSliderIndex] = useState(0);
+    const sliderRef = useRef(null);
     const calculateProgressBar = (progressBar) => {
         progressBar.innerHTML = ""
-        const slider = progressBar.closest(".row").querySelector(".slider");
-        const itemCount = slider.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(slider)
+        const itemCount = sliderRef.current.children.length;
+        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
-        const sliderIndex = parseInt(
-            getComputedStyle(slider).getPropertyValue("--slider-index")
-        )
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
         for (let i = 0; i < progressBarItemCount; i++) {
             const barItem = document.createElement("div")
@@ -36,12 +34,8 @@ const Carousel = ({data}:{data: Array<any>}) => {
     const handleForward = (e:any) => {
         const progressBar = e.target.closest(".row").
                             querySelector(".progress-bar");
-        const slider = e.target.closest(".carousel").querySelector(".slider");
-        const sliderIndex = parseInt(
-            getComputedStyle(slider).getPropertyValue("--slider-index")
-        );
-        const itemCount = slider.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(slider)
+        const itemCount = sliderRef.current.children.length;
+        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
         setTimeout(() => {
@@ -49,13 +43,13 @@ const Carousel = ({data}:{data: Array<any>}) => {
         }, 500);
         
         if (sliderIndex === progressBarItemCount - 1) {
-            slider.style.setProperty("--slider-index", 0);
+            setSliderIndex(0);
             setTimeout(() => {
                 progressBar.children[0].classList.add("active");
             }, 500);
             
         } else {
-            slider.style.setProperty("--slider-index", sliderIndex + 1);
+            setSliderIndex(sliderIndex + 1)
             setTimeout(() => {
                 progressBar.children[sliderIndex + 1].classList.add("active"); 
             }, 500);
@@ -65,12 +59,8 @@ const Carousel = ({data}:{data: Array<any>}) => {
     const handleBackward = (e:any) => {
         const progressBar = e.target.closest(".row").
                             querySelector(".progress-bar");
-        const slider = e.target.closest(".carousel").querySelector(".slider");
-        const sliderIndex = parseInt(
-            getComputedStyle(slider).getPropertyValue("--slider-index")
-        );
-        const itemCount = slider.children.length;
-        const itemsPerScreen = parseInt(getComputedStyle(slider)
+        const itemCount = sliderRef.current.children.length;
+        const itemsPerScreen = parseInt(getComputedStyle(sliderRef.current)
                                 .getPropertyValue("--items-per-screen"));
         const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
         setTimeout(() => {
@@ -79,13 +69,13 @@ const Carousel = ({data}:{data: Array<any>}) => {
         );
         
         if (sliderIndex === 0) {
-            slider.style.setProperty("--slider-index", progressBarItemCount - 1);
+            setSliderIndex(progressBarItemCount - 1)
             setTimeout(() => {
                 progressBar.children[progressBarItemCount - 1].
                 classList.add("active")}, 500
             )       
         } else {
-            slider.style.setProperty("--slider-index", sliderIndex - 1);
+            setSliderIndex(sliderIndex - 1)
             setTimeout(() => {
                 progressBar.children[sliderIndex - 1].classList.add("active");
             }, 500);
@@ -107,7 +97,10 @@ const Carousel = ({data}:{data: Array<any>}) => {
                 >
                     <div className="arrow">&#8249;</div>
                 </button>
-            <div className="slider">
+            <div className="slider"
+                ref={sliderRef}
+                style={{transform: `translateX(-${sliderIndex * 100}%)`}}
+            >
                 <img 
                 src="https://dummyimage.com/450x300/ffff00/000&text=1"/>
                 <img 
