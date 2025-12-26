@@ -2,6 +2,7 @@ import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
 import {useRef} from "react";
+import Carousel from "../Carousel";
 
 const HomePage = ({props}:any) => {
     const title = "SAMPLE TITLE";
