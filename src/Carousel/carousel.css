@@ -55,16 +55,11 @@
     transition: transform 500ms ease-in-out;
 }
 
-.slider > img {
+.slider > div {
     flex: 0 0 calc(100% / var(--items-per-screen));
     max-width: calc(100% / var(--items-per-screen));
-    aspect-ratio: 16 / 9;
     padding: .25rem;
     border-radius: 0.5rem;
-}
-
-.row {
-
 }
 
 .header {

@@ -1,5 +1,3 @@
-import ImageCard from "./ImageCard"
-
 const VideoCard = ({col}:{col:number}) => {
   console.log("col is...", col);
     return (
@@ -8,9 +6,6 @@ const VideoCard = ({col}:{col:number}) => {
             <video autoPlay loop muted className=" object-cover w-full h-full rounded-xl aspect-16/9">
                 <source src="sample.mp4#t=10"/>
             </video>  
-        </div>
-        <div className="relative">
-            <ImageCard/>
         </div>
     </>
   )
