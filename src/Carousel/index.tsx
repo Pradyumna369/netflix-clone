@@ -4,9 +4,9 @@ import throttle from "lodash/throttle";
 import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
 import movies from "../Database";
+import type { Movie } from "../Movie";
 
-
-const Carousel = ({data}:{data: string[]}) => {
+const Carousel = ({data, row}:{data: Movie[], row: number}) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -15,7 +15,6 @@ const Carousel = ({data}:{data: string[]}) => {
     const progressBarItemCount = itemsPerScreen > 0 ? 
         Math.ceil(itemCount / itemsPerScreen): 0;
     const TRANSITION_MS = 500;
-    const currentElement = useVideo((state:any) => state.currentElement);
     const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
 
     useEffect(() => { 
@@ -84,7 +83,7 @@ const Carousel = ({data}:{data: string[]}) => {
         </div>
         <div className="carousel">
                 <button 
-                className="handle left-handle"
+                className={`handle left-handle ${sliderIndex === 0 ? "" : "bg-black/50"}`}
                 onClick={handleBackward}
                 >
                     <div className="arrow">&#8249;</div>
@@ -96,21 +95,15 @@ const Carousel = ({data}:{data: string[]}) => {
                     {
                 movies.map((movie,index) => (
                     <div key={index}
-                    onMouseEnter={() => setCurrentElement(`${index}`)}
+                    onMouseEnter={() => setCurrentElement(`${row} ${index}`)}
                     onMouseLeave={() =>  setCurrentElement("pause")}
                     >
-                        {/* {
-                            `${index}` === currentElement?
-                                <VideoCard col={index}/>
-                            :
-                            <ImageCard/>
-                        } */}
-                        <MovieCard movie={movie} index={index}/>
+                        <MovieCard movie={movie} index={`${row} ${index}`}/>
                         </div>
                     ))}
             </div>
             <button 
-            className="handle right-handle"
+            className={`handle right-handle ${(sliderIndex === progressBarItemCount - 1 && itemCount % itemsPerScreen !== 0) ? "" : "bg-black/50"}`}
             onClick={handleForward}
             >
                 <div className="arrow">&#8250;</div>

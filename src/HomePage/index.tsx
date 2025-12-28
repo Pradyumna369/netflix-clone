@@ -2,7 +2,6 @@ import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
 import {useRef} from "react";
-import Carousel from "../Carousel";
 
 const HomePage = ({props}:any) => {
     const title = "SAMPLE TITLE";
@@ -43,7 +42,7 @@ const HomePage = ({props}:any) => {
                 </div>
                 </div>
 
-                <div className="absolute top-4/5 z-1 px-14">
+                <div className="absolute top-4/5 z-1 w-full">
                     <Videos/>
                 </div>
                 <div className="absolute bottom-0 h-2/7 w-full bg-linear-to-t from-black to-transparent">
