@@ -67,10 +67,9 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
     }
 
     return(
-        <div className="row">
+        <div className="row mb-5">
         <div className="header">
             <h3 className="title text-white justify-between">Title</h3>
-            <p className="text-white">{itemsPerScreen}</p>
             <div className="progress-bar">
                 {
                     Array.from({length: progressBarItemCount}).map((_,i) => (

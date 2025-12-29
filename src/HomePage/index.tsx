@@ -48,13 +48,12 @@ const HomePage = ({props}:any) => {
                 <div className="absolute top-4/5 z-1 w-full">
                     <Videos/>
                 </div>
-                <div className="absolute bottom-0 h-2/7 w-full bg-linear-to-t from-black to-transparent">
+                <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent">
                 </div>
             </div>
         {playVideo?
             <VideoCard/> : <></>
         }
-        
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import {create} from 'zustand';
+import type { Movie } from './Movie';
 
 const useVideo = create((set) => ({
     currentElement: "",
@@ -11,6 +12,8 @@ const useVideo = create((set) => ({
 
     ]),
     playVideo: false,
+    currentMovie: {} as Movie,
+    setCurrentMovie: (movie : Movie) => set(({currentMovie: movie})),
     setPlayVideo: (val: boolean) => set({playVideo:val}),
     setCoordinates: (x: number, y: number, width: number, height: number) => 
         set((state: any) => {

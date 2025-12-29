@@ -3,10 +3,11 @@ import useVideo from "../store";
 import {useRef, useState, useEffect} from "react";
 
 const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLImageElement | null>(null);
   const currentElement = useVideo((state: any) => state.currentElement);
   const setCoordinates = useVideo((state: any) => state.setCoordinates);
   const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
+  const setCurrentMovie = useVideo((state: any) => state.setCurrentMovie);
   const [scroll, setScroll] = useState(0);
 
   useEffect(() => {
@@ -18,32 +19,34 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
   const handleMouseEnter = () => {
     let rect = videoRef.current?.getBoundingClientRect(); 
     let y = rect?.y + scroll;
-    setCoordinates(rect?.x, y, rect?.width, rect?.height);
+    setCoordinates(rect?.left, y, rect?.width, rect?.height);
     setPlayVideo(true);
-    console.log("y is...", rect?.x);
+    setCurrentMovie(movie);
+    console.log("setting current movie as ... ", movie);
   };
 
   return (
     <div
       className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full`}
-      onMouseEnter={handleMouseEnter}
     >
       {currentElement === index ? (
         <div>
-            <video
-                ref={videoRef}
+            {/* <video
                 src={movie.previewUrl}
                 loop
                 playsInline
                 preload="metadata"
                 className="absolute inset-0 w-full h-full object-cover"
-            />
+            /> */}
         </div>
       ) : (
-        <div className="relative aspect-video overflow-hidden rounded-lg group">
+        <div className="relative aspect-video overflow-hidden rounded-lg group" 
+        onMouseEnter={handleMouseEnter}
+        >
             <img
                 src={movie.imgUrl}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                ref={videoRef}
             />
 
             {/* Gradient overlay */}
