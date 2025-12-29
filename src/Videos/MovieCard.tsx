@@ -20,14 +20,15 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
     let rect = videoRef.current?.getBoundingClientRect(); 
     let y = rect?.y + scroll;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
-    setPlayVideo(true);
+    setTimeout(() =>setPlayVideo(true), 500);
+    
     setCurrentMovie(movie);
     console.log("setting current movie as ... ", movie);
   };
 
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full`}
+      className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full cursor-pointer`}
     >
       {currentElement === index ? (
         <div>
@@ -45,7 +46,7 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
         >
             <img
                 src={movie.imgUrl}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
                 ref={videoRef}
             />
 

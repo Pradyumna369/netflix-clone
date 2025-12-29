@@ -22,12 +22,12 @@ const VideoCard = () => {
     
     return (
     <>
-        <div className="absolute border border-white bg-black rounded-md z-50 overflow-hidden" 
+        <div className="absolute border border-white bg-black rounded-md z-50 overflow-hidden transition duration-200 ease-in-out hover:scale-150" 
             style={{
-                top: (y - 0.1 * height),
-                left: (x - 0.2 * width),
-                width: 1.4 * width,
-                height: 1.2 * height,
+                top: y,
+                left: x,
+                width: width,
+                height: height,
             }}
             onMouseLeave={handleMouseLeave}
         >
