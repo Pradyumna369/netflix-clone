@@ -1,18 +1,21 @@
 import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
-import {useRef} from "react";
+import { useRef } from "react";
+import VideoCard from "../Videos/VideoCard";
 
 const HomePage = ({props}:any) => {
     const title = "SAMPLE TITLE";
     const subTitle = "SAMPLE SUBTITLE";
     const currentElement = useVideo((state:any) => state.currentElement);
+    const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
     if (currentElement === 'pause'){
         vidRef.current.play();
     } else if(currentElement !== ""){
         vidRef.current.pause();
     }
+
   return (
     <div>
       <Header />
@@ -48,6 +51,10 @@ const HomePage = ({props}:any) => {
                 <div className="absolute bottom-0 h-2/7 w-full bg-linear-to-t from-black to-transparent">
                 </div>
             </div>
+        {playVideo?
+            <VideoCard/> : <></>
+        }
+        
     </div>
   );
 };

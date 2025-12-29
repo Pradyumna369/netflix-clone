@@ -1,26 +1,32 @@
 import type  { Movie }  from "../Movie.ts";
 import useVideo from "../store";
-import {useRef} from "react";
+import {useRef, useState, useEffect} from "react";
 
 const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const currentElement = useVideo((state: any) => state.currentElement);
+  const setCoordinates = useVideo((state: any) => state.setCoordinates);
+  const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
+  const [scroll, setScroll] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScroll(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMouseEnter = () => {
-    videoRef.current?.play();
-  };
-
-  const handleMouseLeave = () => {
-    if (!videoRef.current) return;
-    videoRef.current.pause();
-    videoRef.current.currentTime = 0;
+    let rect = videoRef.current?.getBoundingClientRect(); 
+    let y = rect?.y + scroll;
+    setCoordinates(rect?.x, y, rect?.width, rect?.height);
+    setPlayVideo(true);
+    console.log("y is...", rect?.x);
   };
 
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full ${currentElement === index ? "scale-120":""}`}
+      className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full`}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       {currentElement === index ? (
         <div>

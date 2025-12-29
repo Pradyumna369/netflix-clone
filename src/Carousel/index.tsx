@@ -31,6 +31,7 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
         window.addEventListener("resize", throttleProgressBar);
 
         return () => {
+            window.scrollTo(0,0);
             window.removeEventListener("resize", throttleProgressBar);
         }
     }, [data]);
@@ -96,7 +97,6 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
                 movies.map((movie,index) => (
                     <div key={index}
                     onMouseEnter={() => setCurrentElement(`${row} ${index}`)}
-                    onMouseLeave={() =>  setCurrentElement("pause")}
                     >
                         <MovieCard movie={movie} index={`${row} ${index}`}/>
                         </div>
