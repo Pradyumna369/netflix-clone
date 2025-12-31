@@ -67,7 +67,7 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
     }
 
     return(
-        <div className="row mb-5">
+        <div className="row mb-10">
         <div className="header">
             <h3 className="title text-white justify-between">Title</h3>
             <div className="progress-bar">

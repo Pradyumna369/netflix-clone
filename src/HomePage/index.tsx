@@ -8,6 +8,7 @@ const HomePage = ({props}:any) => {
     const title = "SAMPLE TITLE";
     const subTitle = "SAMPLE SUBTITLE";
     const currentElement = useVideo((state:any) => state.currentElement);
+    const currentMovie = useVideo((state:any) => state.currentMovie)
     const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
     if (currentElement === 'pause'){
@@ -51,7 +52,7 @@ const HomePage = ({props}:any) => {
                 <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent">
                 </div>
             </div>
-        {playVideo?
+        {playVideo ?
             <VideoCard/> : <></>
         }
     </div>

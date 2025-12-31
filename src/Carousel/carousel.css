@@ -92,25 +92,25 @@
 
 @media (min-width: 1000px){
     .slider {
-        --items-per-screen: 4;
+        --items-per-screen: 3;
     }
 }
 
 @media (min-width: 1200px){
     .slider {
-        --items-per-screen: 5;
+        --items-per-screen: 4;
     }
 }
 
 @media (min-width: 1400px){
     .slider {
-        --items-per-screen: 6;
+        --items-per-screen: 5;
     }
 }
 
 @media (min-width: 1600px){
     .slider {
-        --items-per-screen: 7;
+        --items-per-screen: 6;
     }
 }
 

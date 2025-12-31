@@ -1,9 +1,11 @@
 import moviesDb from "../Database";
 import Carousel from "../Carousel";
+import type { Movie } from "../Movie";
 
-const Videos = () => {
+const Videos = ({page}:{page:Movie[]}) => {
   const categories = ["crime", "Thrillers", "you may like"] as any;
-  const movies = moviesDb;
+  const currentPage = page || categories;
+  const movies = page;
 
     return (
     <div>

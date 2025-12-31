@@ -20,33 +20,19 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
     let rect = videoRef.current?.getBoundingClientRect(); 
     let y = rect?.y + scroll;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
-    setTimeout(() =>setPlayVideo(true), 500);
-    
+    setTimeout(() => setPlayVideo(true), 500);
     setCurrentMovie(movie);
     console.log("setting current movie as ... ", movie);
   };
 
   return (
     <div
-      className={`relative aspect-video overflow-hidden rounded-lg bg-black border border-white w-full cursor-pointer`}
+      className="relative aspect-video overflow-hidden rounded-lg bg-black w-full cursor-pointer"
+      onMouseEnter={handleMouseEnter}
     >
-      {currentElement === index ? (
-        <div>
-            {/* <video
-                src={movie.previewUrl}
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 w-full h-full object-cover"
-            /> */}
-        </div>
-      ) : (
-        <div className="relative aspect-video overflow-hidden rounded-lg group" 
-        onMouseEnter={handleMouseEnter}
-        >
             <img
                 src={movie.imgUrl}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 cursor-pointer"
                 ref={videoRef}
             />
 
@@ -62,8 +48,7 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
                 {movie.subTitle}
                 </p>
             </div>
-        </div>
-      )}
+
     </div>
   );
 };

@@ -32,8 +32,12 @@ const useVideo = create((set) => ({
         ["height",0]
 
     ])}
-    }
-)
+    },),
+    myList: [] as Movie[],
+    addToMyList: (movie: Movie) => set((state:any) => {
+        const newList = [...state.myList, movie]
+        return {myList: newList}
+    })
 }
 ))
 

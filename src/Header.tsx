@@ -34,7 +34,9 @@ const Header = () => {
           <p className="px-3 text-sm text-white">Movies</p>
           <p className="px-3 text-sm text-white">Games</p>
           <p className="px-3 text-sm text-white">New & Popular</p>
-          <p className="px-3 text-sm text-white">My List</p>
+          <Link to="/myList">
+            <p className="px-3 text-sm text-white">My List</p>
+          </Link>
           <p className="px-3 text-sm text-white">Browse by languages</p>
         </div>
 
