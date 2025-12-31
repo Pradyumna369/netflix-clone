@@ -4,25 +4,16 @@ import {useRef, useState, useEffect} from "react";
 
 const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
   const videoRef = useRef<HTMLImageElement | null>(null);
-  const currentElement = useVideo((state: any) => state.currentElement);
   const setCoordinates = useVideo((state: any) => state.setCoordinates);
   const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
   const setCurrentMovie = useVideo((state: any) => state.setCurrentMovie);
-  const [scroll, setScroll] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScroll(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleMouseEnter = () => {
-    let rect = videoRef.current?.getBoundingClientRect(); 
-    let y = rect?.y + scroll;
-    setCoordinates(rect?.left, y, rect?.width, rect?.height);
-    setTimeout(() => setPlayVideo(true), 500);
     setCurrentMovie(movie);
-    console.log("setting current movie as ... ", movie);
+    let rect = videoRef.current?.getBoundingClientRect(); 
+    let y = rect?.y + window.scrollY;
+    setCoordinates(rect?.left, y, rect?.width, rect?.height);
+    setTimeout(() => setPlayVideo(true), 300);
   };
 
   return (

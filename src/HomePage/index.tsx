@@ -8,7 +8,7 @@ const HomePage = ({props}:any) => {
     const title = "SAMPLE TITLE";
     const subTitle = "SAMPLE SUBTITLE";
     const currentElement = useVideo((state:any) => state.currentElement);
-    const currentMovie = useVideo((state:any) => state.currentMovie)
+    const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
     if (currentElement === 'pause'){
@@ -20,7 +20,7 @@ const HomePage = ({props}:any) => {
   return (
     <div>
       <Header />
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-9/10">
                 <video
                     autoPlay
                     loop
@@ -46,10 +46,12 @@ const HomePage = ({props}:any) => {
                 </div>
                 </div>
 
-                <div className="absolute top-4/5 z-1 w-full">
-                    <Videos/>
+                <div className="absolute top-6/8 z-1 w-full">
+                    <Videos data={allVideos}/>
                 </div>
-                <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent">
+                <div className="absolute bottom-1/12 h-2/9 w-full bg-linear-to-t from-black to-transparent">
+                </div>
+                <div className="absolute bottom-0 h-1/12 w-full bg-black">
                 </div>
             </div>
         {playVideo ?

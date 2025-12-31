@@ -1,20 +1,21 @@
 import useVideo from "../store";
-import {useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {Link} from "react-router-dom";
 
 const VideoCard = () => {
     const coordinates = useVideo((state:any) => state.coordinates);
+    const cardRef = useRef<HTMLDivElement | null>(null);
     const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
     const x = coordinates.get("x");
     const y = coordinates.get("y");
     const width = coordinates.get("width");
     const height = coordinates.get("height");
     const [startVideo, setStartVideo] = useState(false);
-    setTimeout(() => setStartVideo(true), 500)
     const removeCoordinates = useVideo((state: any) => state.removeCoordinates);
     const currentMovie = useVideo((state:any) => state.currentMovie);
     const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
     const setCurrentMovie = useVideo((state:any) => state.setCurrentMovie);
+    const [expanded, setExpanded] = useState(false);
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
@@ -26,17 +27,46 @@ const VideoCard = () => {
         addToMyList(currentMovie);
     };
 
-    if (x == null || y == null || width == null || height == null) return null;
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!cardRef.current) return;
+
+            // Checking if the cursor is over the same element or its children
+            if (!cardRef.current.contains(e.target as Node)) {
+                handleMouseLeave();
+            }
+        };
+
+        document.addEventListener("mousemove", handleMouseMove);
+        return () => document.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
+    useEffect(() => {
+        setStartVideo(false);
+        const timer = setTimeout(() => setStartVideo(true), 500);
+        return () => clearTimeout(timer);
+    }, [currentMovie]);
+
+    useLayoutEffect(() => {
+        requestAnimationFrame(() => {
+            setExpanded(true);
+        }
+    )
+    }, [currentMovie]);
+
+    if (x == null || y == null || width == null || height == null ) return null;
     
     return (
     <>
-        <div className="absolute  bg-black rounded-md z-50 overflow-hidden transition duration-200 ease-in-out hover:scale-120" 
+        <div className={`absolute  bg-black rounded-md z-50 overflow-hidden transition-transform duration-200 ease-in-out 
+                        ${expanded ? "scale-[1.2]" : "scale-100"}`} 
             style={{
                 top: y,
                 left: x,
                 width: width,
             }}
             onMouseLeave={handleMouseLeave}
+            ref={cardRef}
         >   
             {
                 startVideo ?
@@ -71,9 +101,9 @@ const VideoCard = () => {
             </div>
             <div className="text-white text-sm flex text-xs pl-2 gap-1 mt-3 mb-3">
                 {
-                    currentMovie.tags.filter((_, index:number) => index < 2).map((tag: String, index:number) => {
+                    currentMovie.tags?.slice(0, 2).map((tag: String, index:number) => {
                         return(
-                            <div>
+                            <div key={index}>
                                 {`・${tag}`}
                             </div>
                         )

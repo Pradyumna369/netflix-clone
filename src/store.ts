@@ -1,7 +1,9 @@
 import {create} from 'zustand';
 import type { Movie } from './Movie';
+import movies from './Database';
 
 const useVideo = create((set) => ({
+    allMovies: movies,
     currentElement: "",
     setCurrentElement: (element: string) => set(({currentElement:element})),
     coordinates: new Map([

@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import throttle from "lodash/throttle";
 import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
-import movies from "../Database";
 import type { Movie } from "../Movie";
 
 const Carousel = ({data, row}:{data: Movie[], row: number}) => {
@@ -93,7 +92,7 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
                 style={{transform: `translateX(-${sliderIndex * 100}%)`}}
             >
                     {
-                movies.map((movie,index) => (
+                data.map((movie,index) => (
                     <div key={index}
                     onMouseEnter={() => setCurrentElement(`${row} ${index}`)}
                     >
