@@ -28,7 +28,8 @@ const VideoCard = () => {
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
     const addToMyList = useVideo((state:any) => state.addToMyList);
     const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
-    const [muted, setMuted] = useState(false);
+    const muted = useVideo((state:any) => state.muted);
+    const setMuted = useVideo((state:any) => state.setMuted);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
     };
@@ -68,8 +69,7 @@ const VideoCard = () => {
         requestAnimationFrame(() => {
             setExpanded(true);
         }
-    )
-    }, [currentMovie]);
+    )}, [currentMovie]);
 
     if (x == null || y == null || width == null || height == null ) return null;
     
@@ -92,27 +92,24 @@ const VideoCard = () => {
                         <source src={currentMovie.previewUrl}/>
                     </video> 
                     {
-                        displayMute ? 
                         <div className="absolute bottom-3 left-3">
-                            <h3 className="text-white font-bold text-sm tracking-wide">
+                            <h3 className={`text-white font-bold text-sm tracking-wide transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-100" : "opacity-0"}`}>
                             {currentMovie.title}
                             </h3>
-                            <p className="text-gray-300 text-xs">
+                            <p className={`text-white text-xs transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-100" : "opacity-0"}`}>
                             {currentMovie.subTitle}
                             </p> 
-                        </div> : ""
+                        </div> 
                     }
                     {
-                        displayMute ? muted ? 
-                        <button onClick={() => setMuted(false)} className=" absolute top-3 right-3 w-6 h-6 bg-white rounded-full">
+                        muted ? 
+                        <button onClick={() => setMuted(false)} className={`absolute top-3 right-3 w-6 h-6 bg-white rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-50" : "opacity-0"}`}>
                             <img src="volume.png" className="w-6 h-6"/> 
                         </button>
                         :
-                        <button onClick={() => setMuted(true)} className="absolute top-3 right-3 w-6 h-6 bg-white rounded-full">
+                        <button onClick={() => setMuted(true)} className={`absolute top-3 right-3 w-6 h-6 bg-white rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-50" : "opacity-0"}`}>
                             <img src="mute.png" className="w-6 h-6"/>
                         </button>
-                        : 
-                        ""
                     }
                 </div>
                 :

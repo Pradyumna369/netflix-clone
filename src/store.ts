@@ -48,7 +48,10 @@ const useVideo = create((set) => ({
     removeFromMyList: (movie: Movie) => set((state: any) => {
         const newList = state.myList.filter((film: Movie, index: string) => film !== movie);
         return {myList: newList};
-    })
+    }),
+
+    muted: false,
+    setMuted: (val: boolean) => set({muted: val}),
 }
 ))
 
