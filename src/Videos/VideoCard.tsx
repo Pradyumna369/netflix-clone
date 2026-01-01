@@ -1,6 +1,7 @@
 import useVideo from "../store";
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {Link} from "react-router-dom";
+import type { Movie } from "../Movie";
 
 const VideoCard = () => {
     const coordinates = useVideo((state:any) => state.coordinates);
@@ -22,10 +23,18 @@ const VideoCard = () => {
         setCurrentElement("");
         setCurrentMovie({});
     };
+    const myList = useVideo((state:any) => state.myList);
+    const present = myList.some((m: Movie) => m._id === currentMovie._id);
     const addToMyList = useVideo((state:any) => state.addToMyList);
+    const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
     };
+
+    const handleRemoveFromList = () => {
+        removeFromMyList(currentMovie);
+    };
+
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -78,15 +87,22 @@ const VideoCard = () => {
                 className="w-full h-full object-cover aspect-[16/9]"
             />
             }
-            <div className="text-white flex mt-3 px-3 mb-3 ">
+            <div className="text-white flex mt-3 px-3 mb-3">
                 <Link to="/play">
-                    <img src="play-button-round-white-icon.png" className="w-5 h-5 mr-2"/>
+                    <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
                 </Link>
-                <button onClick={handleAddToMyList} className="cursor-pointer">
-                    <img src="add-round-outline-white-icon.png" className="w-5 h-5 mr-2"/>
-                </button>
+                {
+                    present ? 
+                    <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
+                        <img src="check.png" className="w-6 h-6"/>
+                    </button>
+                    :
+                    <button onClick={handleAddToMyList} className="cursor-pointer">
+                        <img src="add-round-outline-white-icon.png" className="w-7 h-7 mr-2"/>
+                    </button>
+                }
                 
-                <img src="_.jpeg" className="w-5 h-5"/>
+                <img src="_.jpeg" className="w-7 h-7"/>
             </div>
             <div className="flex text-white px-3 text-xs items-center">
                 <div className="border border-white-100 w-fit px-1">

@@ -18,7 +18,7 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
 
   return (
     <div
-      className="relative aspect-video overflow-hidden rounded-lg bg-black w-full cursor-pointer"
+      className="relative aspect-video overflow-hidden rounded-md bg-black w-full cursor-pointer"
       onMouseEnter={handleMouseEnter}
     >
             <img

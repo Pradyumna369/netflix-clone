@@ -37,8 +37,17 @@ const useVideo = create((set) => ({
     },),
     myList: [] as Movie[],
     addToMyList: (movie: Movie) => set((state:any) => {
+        if (state.myList.includes(movie)) {
+            console.log("movie already present in the list");
+            return {};
+        };
         const newList = [...state.myList, movie]
         return {myList: newList}
+    }),
+
+    removeFromMyList: (movie: Movie) => set((state: any) => {
+        const newList = state.myList.filter((film: Movie, index: string) => film !== movie);
+        return {myList: newList};
     })
 }
 ))
