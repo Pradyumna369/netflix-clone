@@ -79,13 +79,33 @@ const VideoCard = () => {
         >   
             {
                 startVideo ?
-                <video autoPlay loop muted className=" object-cover w-full h-full aspect-[16/9]">
-                    <source src={currentMovie.previewUrl}/>
-                </video> :
-                <img
-                src={currentMovie.imgUrl}
-                className="w-full h-full object-cover aspect-[16/9]"
-            />
+                <div className="relative">
+                    <video autoPlay loop muted className=" object-cover w-full h-full aspect-[16/9]">
+                        <source src={currentMovie.previewUrl}/>
+                    </video> 
+                    <div className="absolute bottom-3 left-3">
+                        <h3 className="text-white font-bold text-sm tracking-wide">
+                        {currentMovie.title}
+                        </h3>
+                        <p className="text-gray-300 text-xs">
+                        {currentMovie.subTitle}
+                        </p>
+                    </div>
+                </div>
+                :
+                <div className="relative">
+                    <img
+                    src={currentMovie.imgUrl}
+                    className="w-full h-full object-cover aspect-[16/9]"/>
+                    <div className="absolute bottom-3 left-3">
+                        <h3 className="text-white font-bold text-lg tracking-wide">
+                        {currentMovie.title}
+                        </h3>
+                        <p className="text-gray-300 text-xs">
+                        {currentMovie.subTitle}
+                        </p>
+                    </div>
+                </div>
             }
             <div className="text-white flex mt-3 px-3 mb-3">
                 <Link to="/play">

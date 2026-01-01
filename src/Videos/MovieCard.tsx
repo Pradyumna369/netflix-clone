@@ -28,7 +28,7 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
             />
 
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
             {/* Title */}
             <div className="absolute bottom-3 left-3">
