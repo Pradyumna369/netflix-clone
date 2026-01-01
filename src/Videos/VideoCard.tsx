@@ -19,7 +19,7 @@ const VideoCard = () => {
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
-        setCurrentElement("pause");
+        setCurrentElement("");
         setCurrentMovie({});
     };
     const addToMyList = useVideo((state:any) => state.addToMyList);

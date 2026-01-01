@@ -1,7 +1,7 @@
 import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import VideoCard from "../Videos/VideoCard";
 
 const HomePage = ({props}:any) => {
@@ -11,11 +11,14 @@ const HomePage = ({props}:any) => {
     const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
-    if (currentElement === 'pause'){
+    useEffect(() => {
+    if (currentElement === ""){
         vidRef.current.play();
     } else if(currentElement !== ""){
         vidRef.current.pause();
     }
+    }, [currentElement]);
+    
 
   return (
     <div>
