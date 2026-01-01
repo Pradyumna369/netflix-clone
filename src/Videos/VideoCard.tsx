@@ -17,6 +17,7 @@ const VideoCard = () => {
     const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
     const setCurrentMovie = useVideo((state:any) => state.setCurrentMovie);
     const [expanded, setExpanded] = useState(false);
+    const [displayMute, setDisplayMute] = useState(true);
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
@@ -27,6 +28,7 @@ const VideoCard = () => {
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
     const addToMyList = useVideo((state:any) => state.addToMyList);
     const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
+    const [muted, setMuted] = useState(false);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
     };
@@ -35,10 +37,16 @@ const VideoCard = () => {
         removeFromMyList(currentMovie);
     };
 
-
     useEffect(() => {
+        var muteTimer = [] as any;
         const handleMouseMove = (e: MouseEvent) => {
             if (!cardRef.current) return;
+            setDisplayMute(true);
+            
+            muteTimer.push(setTimeout(() => setDisplayMute(false), 3000));
+            for (var i = 0; i < muteTimer.length - 1; i++) {
+                clearTimeout(muteTimer[i]);
+            }
 
             // Checking if the cursor is over the same element or its children
             if (!cardRef.current.contains(e.target as Node)) {
@@ -80,17 +88,32 @@ const VideoCard = () => {
             {
                 startVideo ?
                 <div className="relative">
-                    <video autoPlay loop muted className=" object-cover w-full h-full aspect-[16/9]">
+                    <video autoPlay loop muted={!muted} className=" object-cover w-full h-full aspect-[16/9]">
                         <source src={currentMovie.previewUrl}/>
                     </video> 
-                    <div className="absolute bottom-3 left-3">
-                        <h3 className="text-white font-bold text-sm tracking-wide">
-                        {currentMovie.title}
-                        </h3>
-                        <p className="text-gray-300 text-xs">
-                        {currentMovie.subTitle}
-                        </p>
-                    </div>
+                    {
+                        displayMute ? 
+                        <div className="absolute bottom-3 left-3">
+                            <h3 className="text-white font-bold text-sm tracking-wide">
+                            {currentMovie.title}
+                            </h3>
+                            <p className="text-gray-300 text-xs">
+                            {currentMovie.subTitle}
+                            </p> 
+                        </div> : ""
+                    }
+                    {
+                        displayMute ? muted ? 
+                        <button onClick={() => setMuted(false)} className=" absolute top-3 right-3 w-6 h-6 bg-white rounded-full">
+                            <img src="volume.png" className="w-6 h-6"/> 
+                        </button>
+                        :
+                        <button onClick={() => setMuted(true)} className="absolute top-3 right-3 w-6 h-6 bg-white rounded-full">
+                            <img src="mute.png" className="w-6 h-6"/>
+                        </button>
+                        : 
+                        ""
+                    }
                 </div>
                 :
                 <div className="relative">
