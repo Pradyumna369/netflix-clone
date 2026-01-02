@@ -4,10 +4,9 @@ import useVideo from "../store";
 import { useEffect, useRef, useState } from "react";
 import VideoCard from "../Videos/VideoCard";
 
-const HomePage = ({props}:any) => {
+const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVideo: () => void}) => {
     const title = "STRANGER THINGS";
     const [playingVideo, setPlayingVideo] = useState(false);
-    const [endedVideo, setEndedVideo] = useState(false);
     const currentElement = useVideo((state:any) => state.currentElement);
     const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
@@ -15,17 +14,17 @@ const HomePage = ({props}:any) => {
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
     useEffect(() => {
-    if (playingVideo) {
-        if (currentElement === ""){
-        vidRef.current.play();
-    } else if(currentElement !== ""){
-        vidRef.current.pause();
-    }
-    }
-    }, [currentElement]);
+        if (playingVideo) {
+            if (currentElement === ""){
+            vidRef.current.play();
+        } else if(currentElement !== ""){
+            vidRef.current.pause();
+        }
+    }}, [currentElement]);
 
     useEffect(() => {
-        setTimeout(() => setPlayingVideo(true), 3000);
+        if (!endedVideo)
+            setTimeout(() => setPlayingVideo(true), 300);
     }, []);
     
   return (

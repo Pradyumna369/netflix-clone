@@ -51,7 +51,7 @@ const useVideo = create((set) => ({
     }),
 
     muted: false,
-    setMuted: (val: boolean) => set({muted: val}),
+    setMuted: (val: boolean) => set({muted: val})
 }
 ))
 
