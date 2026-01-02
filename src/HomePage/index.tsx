@@ -51,7 +51,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                 }
                 
                 <div className={`absolute top-3/7 px-12 `}>
-                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-3000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
+                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-8000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
                         <div className="leading-9">
                             <img
                             src="Netflix_Logo_RGB.png"
@@ -63,7 +63,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                             {title}
                         </div>
                     </div>
-                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-3000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
+                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-8000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
                         <p className="text-white text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
                     </div>
                     <div className="absolute top-25 flex gap-5">
