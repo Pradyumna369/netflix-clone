@@ -4,7 +4,7 @@ import useVideo from "../store";
 import { useEffect, useRef, useState } from "react";
 import VideoCard from "../Videos/VideoCard";
 
-const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVideo: () => void}) => {
+const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
     const title = "STRANGER THINGS";
     const [playingVideo, setPlayingVideo] = useState(false);
     const currentElement = useVideo((state:any) => state.currentElement);
@@ -50,17 +50,32 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                     ></img>
                 }
                 
-                <div className="absolute top-3/7 px-4">
-                <div className="leading-9">
-                    <img
-                    src="Netflix_Logo_RGB.png"
-                    alt="NETFLIX"
-                    className="w-40 h-11 px-7"
-                    />
-                </div>
-                <div className="text-white px-10 font-sherif font-black tracking-tight text-4xl/6 ">
-                    {title}
-                </div>
+                <div className={`absolute top-3/7 px-4 `}>
+                    <div className={`transition duration-1000 ease-in-out origin-bottom-left  ${playingVideo ? "delay-3000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
+                        <div className="leading-9">
+                            <img
+                            src="Netflix_Logo_RGB.png"
+                            alt="NETFLIX"
+                            className="w-40 h-11 px-7"
+                            />
+                        </div>
+                        <div className="text-white px-10 font-sherif font-black tracking-tight text-4xl/6 ">
+                            {title}
+                        </div>
+                    </div>
+                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out ${playingVideo ? "delay-3000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
+                        <p className="text-white px-15 mt-2 text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
+                    </div>
+                    <div className="absolute left-13 top-20 flex gap-5 ">
+                        <div className="bg-white w-27 flex p-2 items-center rounded-sm">
+                            <img src="play.png" className="w-5 h-5 mx-3"/>
+                            <button className="font-semibold">Play</button>
+                        </div>
+                        <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm">
+                            <img src="info.png" className="w-5 h-5 mx-3"/>
+                            <button className="font-semibold text-white mr-3">More Info</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="absolute top-7/9 z-1 w-full">
