@@ -19,7 +19,7 @@ const Header = () => {
         `}
       />
 
-      <div className="relative flex items-center justify-between px-4 bg-linear-to-b from-black to-transparent">
+      <div className="relative flex items-center justify-between px-3 bg-linear-to-b from-black to-transparent">
         <div className="flex items-center flex-none">
           <Link to="/">
             <img
