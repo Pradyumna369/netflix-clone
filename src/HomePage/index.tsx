@@ -6,7 +6,8 @@ import VideoCard from "../Videos/VideoCard";
 
 const HomePage = ({props}:any) => {
     const title = "STRANGER THINGS";
-    const [playingVideo, setPlayingVideo] = useState(true);
+    const [playingVideo, setPlayingVideo] = useState(false);
+    const [endedVideo, setEndedVideo] = useState(false);
     const currentElement = useVideo((state:any) => state.currentElement);
     const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
@@ -14,12 +15,18 @@ const HomePage = ({props}:any) => {
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
     useEffect(() => {
-    if (currentElement === ""){
+    if (playingVideo) {
+        if (currentElement === ""){
         vidRef.current.play();
     } else if(currentElement !== ""){
         vidRef.current.pause();
     }
+    }
     }, [currentElement]);
+
+    useEffect(() => {
+        setTimeout(() => setPlayingVideo(true), 3000);
+    }, []);
     
   return (
     <div>
@@ -32,10 +39,14 @@ const HomePage = ({props}:any) => {
                     muted={!muted}
                     className="object-cover h-full aspect-16/9 -mt-10"
                     ref={vidRef}
+                    onEnded={() => {
+                        setPlayingVideo(false)
+                        setEndedVideo(true)
+                    }}
                     >
                     <source src="/main_clip.mp4" type="video/mp4" />
                     </video> : 
-                    <img className="object-cover w-screen h-full aspect-16/9"
+                    <img className="object-cover w-screen h-full aspect-16/9 -mt-10"
                         src="main_poster.png"
                     ></img>
                 }
@@ -60,16 +71,24 @@ const HomePage = ({props}:any) => {
                 </div>
                 <div className="absolute bottom-0 h-1/12 w-full bg-black">
                 </div>
-                {
+                {   
+                    playingVideo ? 
                         muted ? 
-                        <button onClick={() => setMuted(false)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-50`}>
-                            <img src="volume.png" className="w-10 h-10"/> 
+                        <button onClick={() => setMuted(false)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-60 flex justify-center items-center`}>
+                            <img src="volume.png" className="w-9 h-9"/> 
                         </button>
                         :
-                        <button onClick={() => setMuted(true)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-50`}>
+                        <button onClick={() => setMuted(true)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-60`}>
                             <img src="mute.png" className="w-10 h-10"/>
                         </button>
-                    }
+                        : endedVideo ?
+                        <button onClick={() => {
+                            setPlayingVideo(true)
+                            vidRef.current.play()
+                            }} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full transition-opacity duration-300 ease-in-out opacity-60 border border-white flex justify-center items-center`}>
+                            <img src="replay.png" className="w-6 h-6"/>
+                        </button> : ""
+                }
             </div>
         {playVideo ?
             <VideoCard/> : <></>
