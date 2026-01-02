@@ -51,7 +51,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                 }
                 
                 <div className={`absolute top-3/7 px-12 `}>
-                    <div className={`transition duration-1000 ease-in-out origin-bottom-left  ${playingVideo ? "delay-3000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
+                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-3000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
                         <div className="leading-9">
                             <img
                             src="Netflix_Logo_RGB.png"
@@ -63,10 +63,10 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                             {title}
                         </div>
                     </div>
-                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out ${playingVideo ? "delay-3000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
-                        <p className="text-white mt-2 text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
+                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-3000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
+                        <p className="text-white text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
                     </div>
-                    <div className="absolute top-20 flex gap-5 mt-3">
+                    <div className="absolute top-25 flex gap-5">
                         <div className="bg-white w-27 flex p-2 items-center rounded-sm">
                             <img src="play.png" className="w-5 h-5 mx-3"/>
                             <button className="font-semibold">Play</button>
@@ -88,18 +88,18 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                 {   
                     playingVideo ? 
                         muted ? 
-                        <button onClick={() => setMuted(false)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-60 flex justify-center items-center`}>
-                            <img src="volume.png" className="w-9 h-9"/> 
+                        <button onClick={() => setMuted(false)} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
+                            <img src="speaker.png" className="w-6 h-6"/> 
                         </button>
                         :
-                        <button onClick={() => setMuted(true)} className={`absolute top-130 right-20 w-10 h-10 bg-white rounded-full transition-opacity duration-300 ease-in-out opacity-60`}>
-                            <img src="mute.png" className="w-10 h-10"/>
+                        <button onClick={() => setMuted(true)} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
+                            <img src="mute.png" className="w-6 h-6"/>
                         </button>
                         : endedVideo ?
                         <button onClick={() => {
                             setPlayingVideo(true)
                             vidRef.current.play()
-                            }} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full transition-opacity duration-300 ease-in-out opacity-60 border border-white flex justify-center items-center`}>
+                            }} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
                             <img src="replay.png" className="w-6 h-6"/>
                         </button> : ""
                 }
