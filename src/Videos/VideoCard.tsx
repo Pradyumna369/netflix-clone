@@ -44,7 +44,7 @@ const VideoCard = () => {
             if (!cardRef.current) return;
             setDisplayMute(true);
             
-            muteTimer.push(setTimeout(() => setDisplayMute(false), 3000));
+            muteTimer.push(setTimeout(() => setDisplayMute(false), 2000));
             for (var i = 0; i < muteTimer.length - 1; i++) {
                 clearTimeout(muteTimer[i]);
             }
