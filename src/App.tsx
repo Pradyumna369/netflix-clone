@@ -3,6 +3,7 @@ import HomePage from "./HomePage";
 import PlayMovie from "./PlayMovie";
 import MyList from "./MyList";
 import { useState } from "react";
+import "./App.css"
 const App = () => {
   const [endedVideo, setEndedVideo] = useState(false);
   return(

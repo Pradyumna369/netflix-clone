@@ -1,12 +1,14 @@
 import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState} from "react";
 import VideoCard from "../Videos/VideoCard";
+import CustomLink from "../CustomLink";
 
 const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
     const title = "STRANGER THINGS";
     const [playingVideo, setPlayingVideo] = useState(false);
+    const navigating = useVideo((state:any) => state.navigating);
     const currentElement = useVideo((state:any) => state.currentElement);
     const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
@@ -30,7 +32,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
   return (
     <div>
       <Header />
-            <div className="relative w-full ">
+            <div className={`relative w-full`}>
                 {
                     playingVideo ?
                     <video
@@ -51,7 +53,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                 }
                 
                 <div className={`absolute top-3/7 px-12 `}>
-                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-8000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
+                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-6000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
                         <div className="leading-9">
                             <img
                             src="Netflix_Logo_RGB.png"
@@ -63,14 +65,16 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                             {title}
                         </div>
                     </div>
-                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-8000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
+                    <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-6000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
                         <p className="text-white text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
                     </div>
                     <div className="absolute top-25 flex gap-5">
-                        <div className="bg-white w-27 flex p-2 items-center rounded-sm">
-                            <img src="play.png" className="w-5 h-5 mx-3"/>
-                            <button className="font-semibold">Play</button>
-                        </div>
+                        <CustomLink to="/play">
+                            <div className="bg-white w-27 flex p-2 items-center rounded-sm">
+                                <img src="play.png" className="w-5 h-5 mx-3"/>
+                                <button className="font-semibold">Play</button>
+                            </div>
+                        </CustomLink>
                         <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm">
                             <img src="info.png" className="w-5 h-5 mx-3"/>
                             <button className="font-semibold text-white mr-3">More Info</button>
@@ -102,6 +106,11 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                             }} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
                             <img src="replay.png" className="w-6 h-6"/>
                         </button> : ""
+                }
+                {
+                        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/95 z-51": "bg-transparent -z-1"}`}>
+
+                        </div>
                 }
             </div>
         {playVideo ?

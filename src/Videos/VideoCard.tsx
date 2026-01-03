@@ -1,6 +1,6 @@
 import useVideo from "../store";
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
-import {Link} from "react-router-dom";
+import CustomLink from "../CustomLink";
 import type { Movie } from "../Movie";
 
 const VideoCard = () => {
@@ -103,12 +103,12 @@ const VideoCard = () => {
                     }
                     {
                         muted ? 
-                        <button onClick={() => setMuted(false)} className={`absolute top-3 right-3 w-6 h-6 bg-white rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-50" : "opacity-0"}`}>
-                            <img src="volume.png" className="w-6 h-6"/> 
+                        <button onClick={() => setMuted(false)} className={`absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-black/50 rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-80" : "opacity-0"}`}>
+                            <img src="speaker.png" className="w-4 h-4"/> 
                         </button>
                         :
-                        <button onClick={() => setMuted(true)} className={`absolute top-3 right-3 w-6 h-6 bg-white rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-50" : "opacity-0"}`}>
-                            <img src="mute.png" className="w-6 h-6"/>
+                        <button onClick={() => setMuted(true)} className={`absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-black/50 rounded-full transition-opacity duration-300 ease-in-out ${displayMute ? "opacity-80" : "opacity-0"}`}>
+                            <img src="mute.png" className="w-4 h-4"/>
                         </button>
                     }
                 </div>
@@ -128,9 +128,9 @@ const VideoCard = () => {
                 </div>
             }
             <div className="text-white flex mt-3 px-3 mb-3">
-                <Link to="/play">
+                <CustomLink to="/play">
                     <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
-                </Link>
+                </CustomLink>
                 {
                     present ? 
                     <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
