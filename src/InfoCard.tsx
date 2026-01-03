@@ -22,7 +22,10 @@ const InfoCard = ({movie}: {movie:Movie}) => {
   return (
    <div className="w-1/2 h-full rounded-md overflow-hidden">
         <div className=" relative w-full h-full">
-            <video autoPlay muted className=" object-cover w-full h-full aspect-[16/9]">
+            <video 
+            autoPlay 
+            muted={!muted}
+            className=" object-cover w-full h-full aspect-[16/9]">
                             <source src={movie.previewUrl}/>
             </video> 
             <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent">
@@ -75,7 +78,7 @@ const InfoCard = ({movie}: {movie:Movie}) => {
             </div>
         </div>
         <div className="px-10 text-white items-baseline flex">
-            <div className="min-w-3/4 pr-10">
+            <div className="min-w-5/8 pr-10">
                 <div className="flex gap-3 text-sm text-gray-400">
                     <div>
                         {movie.year}
