@@ -1,12 +1,13 @@
-import moviesDb from "../Database";
 import Carousel from "../Carousel";
 import type { Movie } from "../Movie";
+import useVideo from "../store";
 
 const Videos = ({data}:{data:Movie[]}) => {
   const categories = ["crime", "Thrillers", "you may like"] as any;
+  const navigating = useVideo((state:any) => state.navigating)
 
     return (
-    <div>
+    <div className="relative">
         <ul>
             {
             Array.from(categories).map((name,row) => (
@@ -17,6 +18,8 @@ const Videos = ({data}:{data:Movie[]}) => {
             )
             )}
         </ul>
+        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/95 z-51": "bg-transparent -z-1"}`}>
+        </div>
     </div>
   )
 }
