@@ -4,9 +4,11 @@ import useVideo from "../store";
 import { useEffect, useRef, useState} from "react";
 import VideoCard from "../Videos/VideoCard";
 import CustomLink from "../CustomLink";
+import { Link } from "react-router-dom";
+import type { Movie } from "../Movie";
 
-const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
-    const title = "STRANGER THINGS";
+const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
+    const mainMovie = movie;
     const [playingVideo, setPlayingVideo] = useState(false);
     const navigating = useVideo((state:any) => state.navigating);
     const currentElement = useVideo((state:any) => state.currentElement);
@@ -15,6 +17,7 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
     const vidRef = useRef(null);
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
+
     useEffect(() => {
         if (playingVideo) {
             if (currentElement === ""){
@@ -45,28 +48,28 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                         setEndedVideo(true)
                     }}
                     >
-                    <source src="/main_clip.mp4" type="video/mp4" />
+                    <source src={mainMovie.previewUrl} type="video/mp4" />
                     </video> : 
                     <img className="object-cover w-screen h-full aspect-16/9 -mt-10"
-                        src="main_poster.png"
+                        src={mainMovie.imgUrl}
                     ></img>
                 }
                 
                 <div className={`absolute top-3/7 px-12 `}>
-                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-6000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.5]"}`}>
+                    <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-6000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.1]"}`}>
                         <div className="leading-9">
                             <img
                             src="Netflix_Logo_RGB.png"
                             alt="NETFLIX"
-                            className="w-30 h-11 -ml-2"
+                            className="w-30 -ml-2"
                             />
                         </div>
                         <div className="text-white font-sherif font-black tracking-tight text-4xl/6 ">
-                            {title}
+                            {mainMovie.title}
                         </div>
                     </div>
                     <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-6000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
-                        <p className="text-white text-md">When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.</p>
+                        <p className="text-white text-md">{mainMovie.description}</p>
                     </div>
                     <div className="absolute top-25 flex gap-5">
                         <CustomLink to="/play">
@@ -75,10 +78,12 @@ const HomePage = ({endedVideo, setEndedVideo}:{endedVideo: boolean, setEndedVide
                                 <button className="font-semibold">Play</button>
                             </div>
                         </CustomLink>
-                        <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm">
-                            <img src="info.png" className="w-5 h-5 mx-3"/>
-                            <button className="font-semibold text-white mr-3">More Info</button>
-                        </div>
+                        <Link to={{pathname: "/info"}}>
+                            <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm">
+                                <img src="info.png" className="w-5 h-5 mx-3"/>
+                                <button className="font-semibold text-white mr-3">More Info</button>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 

@@ -25,7 +25,7 @@ const Header = () => {
             <img
               src="Netflix_Logo_RGB.png"
               alt="NETFLIX"
-              className="w-40 h-16 px-7 py-2"
+              className="w-40 px-7 py-2"
             />
           </Link>
 

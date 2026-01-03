@@ -351,5 +351,21 @@
     "tags": ["Dark", "Detective", "Gritty"],
     "imgUrl": "https://image.tmdb.org/t/p/w1280/qqHQsStV6exghCM7zbObuYBiYxw.jpg",
     "previewUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  },
+  {
+    "_id": "S209",
+    "type": "series",
+    "title": "STRANGER THINGS",
+    "subTitle": "The Final Gate",
+    "year": "2025",
+    "duration": "2h 56m",
+    "rating": "PG-13",
+    "ratingDescription": "violence, disturbing images",
+    "description": "When the darkness beneath a small town begins to rise, a group of friends must confront a terrifying force that threatens to tear their world apart — and change them forever.",
+    "cast": ["Millie Bobby Brown", "Finn Wolfhard", "Gaten Matarazzo", "Caleb McLaughlin", "Sadie Sink"],
+    "genres": ["Sci-Fi Movies", "Horror Movies", "Drama Movies"],
+    "tags": ["Dark", "Supernatural", "Coming-of-Age"],
+    "imgUrl": "main_poster.png",
+    "previewUrl": "main_clip.mp4"
   }
 ]
