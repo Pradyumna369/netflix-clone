@@ -18,7 +18,7 @@ const Videos = ({data}:{data:Movie[]}) => {
             )
             )}
         </ul>
-        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/95 z-51": "bg-transparent -z-1"}`}>
+        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/80 z-51": "bg-transparent -z-1"}`}>
         </div>
     </div>
   )

@@ -2,7 +2,7 @@ import type { Movie } from "./Movie";
 import CustomLink from "./CustomLink";
 import useVideo from "./store";
 
-const InfoCard = ({movie}: {movie:Movie}) => {
+const InfoCard = ({movie, setShowInfo}: {movie:Movie, setShowInfo:(val: boolean) => void}) => {
     const myList = useVideo((state:any) => state.myList);
     const currentMovie = useVideo((state:any) => state.currentMovie);
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
@@ -10,6 +10,7 @@ const InfoCard = ({movie}: {movie:Movie}) => {
     const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
+    const setNavigating = useVideo((state:any) => state.setNavigating);
 
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
@@ -20,18 +21,24 @@ const InfoCard = ({movie}: {movie:Movie}) => {
     };
 
   return (
-   <div className="w-1/2 h-full rounded-md overflow-hidden">
-        <div className=" relative w-full h-full">
+   <div className="w-1/2 min-w-150 h-full rounded-md overflow-hidden bg-black">
+        <div className="relative w-full">
+            <button className="absolute h-8 w-8 bg-black/50 rounded-full flex items-center justify-center right-7 top-5 cursor-pointer"
+                onClick={() => {
+                    setShowInfo(false) 
+                    setNavigating(false)
+                }}>
+                <img src="cross.png" className="h-7 w-7"/>
+            </button>
             <video 
             autoPlay 
             muted={!muted}
-            className=" object-cover w-full h-full aspect-[16/9]">
+            className=" object-cover w-full h-full aspect-[16/9] pointer-events-none">
                             <source src={movie.previewUrl}/>
             </video> 
-            <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent">
-            </div>
+            <div className="absolute bottom-0 h-2/9 w-full bg-linear-to-t from-black to-transparent pointer-events-none" />
 
-            <div className="absolute bottom-12 left-10  w-full">
+            <div className="absolute bottom-12 left-10 w-full ">
                 <div>
                     <img
                         src="Netflix_Logo_RGB.png"
@@ -77,7 +84,7 @@ const InfoCard = ({movie}: {movie:Movie}) => {
                 </div>
             </div>
         </div>
-        <div className="px-10 text-white items-baseline flex">
+        <div className="px-10 text-white items-baseline flex bg-black mb-10">
             <div className="min-w-5/8 pr-10">
                 <div className="flex gap-3 text-sm text-gray-400">
                     <div>
@@ -141,12 +148,10 @@ const InfoCard = ({movie}: {movie:Movie}) => {
                                 return ", " + tag;
                             else
                                 return " " + tag;
-                        }
-                        )
+                        })
                     }
                 </div>
             </div>
-
         </div>
    </div>
   )

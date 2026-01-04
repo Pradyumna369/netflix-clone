@@ -4,19 +4,21 @@ import useVideo from "../store";
 import { useEffect, useRef, useState} from "react";
 import VideoCard from "../Videos/VideoCard";
 import CustomLink from "../CustomLink";
-import { Link } from "react-router-dom";
+import InfoCard from "../InfoCard";
 import type { Movie } from "../Movie";
 
 const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
     const mainMovie = movie;
     const [playingVideo, setPlayingVideo] = useState(false);
     const navigating = useVideo((state:any) => state.navigating);
+    const setNavigating = useVideo((state:any) => state.setNavigating);
     const currentElement = useVideo((state:any) => state.currentElement);
     const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
+    const [showInfo, setShowInfo] = useState(false);
 
     useEffect(() => {
         if (playingVideo) {
@@ -78,12 +80,15 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                                 <button className="font-semibold">Play</button>
                             </div>
                         </CustomLink>
-                        <Link to={{pathname: "/info"}}>
-                            <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm">
-                                <img src="info.png" className="w-5 h-5 mx-3"/>
-                                <button className="font-semibold text-white mr-3">More Info</button>
-                            </div>
-                        </Link>
+                        <div className="bg-gray-500/50 w-fit flex p-2 items-center rounded-sm" onClick={() => {
+                            setShowInfo(true)
+                            setNavigating(true)
+                            setPlayingVideo(false)
+                            setEndedVideo(true)
+                            }}>
+                            <img src="info.png" className="w-5 h-5 mx-3"/>
+                            <button className="font-semibold text-white mr-3">More Info</button>
+                        </div>
                     </div>
                 </div>
 
@@ -113,13 +118,24 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                         </button> : ""
                 }
                 {
-                        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/95 z-51": "bg-transparent -z-1"}`}>
+                        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/80 z-51": "bg-transparent -z-1"}`}>
 
                         </div>
                 }
             </div>
-        {playVideo ?
+        {
+            playVideo ?
             <VideoCard/> : <></>
+        }
+        {
+            showInfo ?
+            <div className="absolute z-52 justify-items-center"
+                style={{top:window.scrollY + 10}}
+            >
+                <InfoCard movie={movie} setShowInfo={setShowInfo}/>
+            </div>
+             :
+            ""
         }
     </div>
   );
