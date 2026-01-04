@@ -19,6 +19,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
     const [showInfo, setShowInfo] = useState(false);
+    const [infoMovie, setInfoMovie] = useState({} as Movie);
 
     useEffect(() => {
         if (playingVideo) {
@@ -85,6 +86,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                             setNavigating(true)
                             setPlayingVideo(false)
                             setEndedVideo(true)
+                            setInfoMovie(mainMovie)
                             }}>
                             <img src="info.png" className="w-5 h-5 mx-3"/>
                             <button className="font-semibold text-white mr-3">More Info</button>
@@ -125,14 +127,16 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
             </div>
         {
             playVideo ?
-            <VideoCard/> : <></>
+            <VideoCard setShowInfo={setShowInfo} setInfoMovie={setInfoMovie} setNavigating={setNavigating}
+                setEndedVideo={setEndedVideo} setPlayingVideo={setPlayingVideo}
+            /> : <></>
         }
         {
             showInfo ?
             <div className="absolute z-52 justify-items-center"
                 style={{top:window.scrollY + 10}}
             >
-                <InfoCard movie={movie} setShowInfo={setShowInfo}/>
+                <InfoCard movie={infoMovie} setShowInfo={setShowInfo}/>
             </div>
              :
             ""

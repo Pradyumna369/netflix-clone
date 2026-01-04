@@ -3,7 +3,10 @@ import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import CustomLink from "../CustomLink";
 import type { Movie } from "../Movie";
 
-const VideoCard = () => {
+const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: 
+    {setShowInfo:(val:boolean) => void, setInfoMovie:(movie:Movie) => void, setNavigating:(val:boolean) => void,
+        setEndedVideo:(val:boolean) => void, setPlayingVideo:(val:boolean) => void
+    }) => {
     const coordinates = useVideo((state:any) => state.coordinates);
     const cardRef = useRef<HTMLDivElement | null>(null);
     const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
@@ -127,22 +130,35 @@ const VideoCard = () => {
                     </div>
                 </div>
             }
-            <div className="text-white flex mt-3 px-3 mb-3">
-                <CustomLink to="/play">
-                    <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
-                </CustomLink>
-                {
-                    present ? 
-                    <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
-                        <img src="check.png" className="w-6 h-6"/>
-                    </button>
-                    :
-                    <button onClick={handleAddToMyList} className="cursor-pointer">
-                        <img src="add-round-outline-white-icon.png" className="w-7 h-7 mr-2"/>
-                    </button>
-                }
-                
-                <img src="_.jpeg" className="w-7 h-7"/>
+            <div className="text-white flex justify-between mt-3 px-3 mb-3">
+                <div className="flex">
+                    <CustomLink to="/play">
+                        <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
+                    </CustomLink>
+                    {
+                        present ? 
+                        <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
+                            <img src="check.png" className="w-6 h-6"/>
+                        </button>
+                        :
+                        <button onClick={handleAddToMyList} className="cursor-pointer">
+                            <img src="add-round-outline-white-icon.png" className="w-7 h-7 mr-2"/>
+                        </button>
+                    }
+                    
+                    <img src="_.jpeg" className="w-7 h-7"/>
+                </div>
+                <button className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/50 cursor-pointer"
+                onClick={() => {
+                    setShowInfo(true)
+                    setInfoMovie(currentMovie)
+                    setNavigating(true)
+                    setPlayingVideo(false)
+                    setEndedVideo(true)
+                    }}
+                    >
+                    <img src="down_arrow.png" className="w-5 h-5"/>
+                </button>
             </div>
             <div className="flex text-white px-3 text-xs items-center">
                 <div className="border border-white-100 w-fit px-1">
