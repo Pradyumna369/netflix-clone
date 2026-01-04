@@ -120,7 +120,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                         </button> : ""
                 }
                 {
-                        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 ${navigating ? "bg-black/80 z-51": "bg-transparent -z-1"}`}>
+                        <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 pointer-events-none ${navigating ? "bg-black/80 z-51": "bg-transparent"}`}>
 
                         </div>
                 }

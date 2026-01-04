@@ -155,6 +155,10 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                     setNavigating(true)
                     setPlayingVideo(false)
                     setEndedVideo(true)
+                    removeCoordinates();
+                    setPlayVideo(false);
+                    setCurrentElement("");
+                    setCurrentMovie({});
                     }}
                     >
                     <img src="down_arrow.png" className="w-5 h-5"/>
