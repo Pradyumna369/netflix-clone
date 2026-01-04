@@ -58,7 +58,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                     ></img>
                 }
                 
-                <div className={`absolute top-3/7 px-12 `}>
+                <div className={`absolute top-1/2 px-12`}>
                     <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-6000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.1]"}`}>
                         <div className="leading-9">
                             <img
@@ -74,7 +74,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                     <div className={`w-200 overflow-hidden transition-height duration-1000 ease-in-out mt-5 ${playingVideo ? "delay-6000 h-0" : "delay-1000 h-15 -translate-y-15"}`}>
                         <p className="text-white text-md">{mainMovie.description}</p>
                     </div>
-                    <div className="absolute top-25 flex gap-5">
+                    <div className="absolute top-25 flex gap-5 w-[90vw]">
                         <CustomLink to="/play">
                             <div className="bg-white w-27 flex p-2 items-center rounded-sm">
                                 <img src="play.png" className="w-5 h-5 mx-3"/>
@@ -91,6 +91,24 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                             <img src="info.png" className="w-5 h-5 mx-3"/>
                             <button className="font-semibold text-white mr-3">More Info</button>
                         </div>
+                        {   
+                            playingVideo ? 
+                                muted ? 
+                                <button onClick={() => setMuted(false)} className={`absolute right-0 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
+                                    <img src="speaker.png" className="w-6 h-6"/> 
+                                </button>
+                                :
+                                <button onClick={() => setMuted(true)} className={`absolute right-0 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
+                                    <img src="mute.png" className="w-6 h-6"/>
+                                </button>
+                                : endedVideo ?
+                                <button onClick={() => {
+                                    setPlayingVideo(true)
+                                    vidRef.current.play()
+                                    }} className={`absolute right-0 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
+                                    <img src="replay.png" className="w-6 h-6"/>
+                                </button> : ""
+                        }
                     </div>
                 </div>
 
@@ -101,24 +119,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                 </div>
                 <div className="absolute bottom-0 h-1/12 w-full bg-black">
                 </div>
-                {   
-                    playingVideo ? 
-                        muted ? 
-                        <button onClick={() => setMuted(false)} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
-                            <img src="speaker.png" className="w-6 h-6"/> 
-                        </button>
-                        :
-                        <button onClick={() => setMuted(true)} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
-                            <img src="mute.png" className="w-6 h-6"/>
-                        </button>
-                        : endedVideo ?
-                        <button onClick={() => {
-                            setPlayingVideo(true)
-                            vidRef.current.play()
-                            }} className={`absolute top-130 right-20 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
-                            <img src="replay.png" className="w-6 h-6"/>
-                        </button> : ""
-                }
+                
                 {
                         <div className={`absolute inset-0 w-full h-full bg-black  transition duration-1000 pointer-events-none ${navigating ? "bg-black/80 z-51": "bg-transparent"}`}>
 
