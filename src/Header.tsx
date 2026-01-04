@@ -19,13 +19,13 @@ const Header = () => {
         `}
       />
 
-      <div className="relative flex items-center justify-between px-3 bg-linear-to-b from-black to-transparent">
+      <div className="relative flex items-center justify-between px-[3%] bg-linear-to-b from-black to-transparent">
         <div className="flex items-center flex-none">
           <Link to="/">
             <img
               src="Netflix_Logo_RGB.png"
               alt="NETFLIX"
-              className="w-40 px-7 py-2"
+              className="w-35 pr-7 py-2"
             />
           </Link>
 
