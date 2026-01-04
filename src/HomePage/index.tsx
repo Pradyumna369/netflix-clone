@@ -38,7 +38,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
   return (
     <div>
       <Header />
-            <div className={`relative w-full`}>
+            <div className={`relative w-full min-w-[800px]`}>
                 {
                     playingVideo ?
                     <video
@@ -58,7 +58,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                     ></img>
                 }
                 
-                <div className={`absolute top-1/2 px-12`}>
+                <div className={`absolute top-1/2 ml-[3%] pl-[0.5rem]`}>
                     <div className={`transition duration-1000 ease-in-out origin-bottom-left ${playingVideo ? "delay-6000 scale-[0.8]" : "delay-1000 -translate-y-15 scale-[1.1]"}`}>
                         <div className="leading-9">
                             <img
