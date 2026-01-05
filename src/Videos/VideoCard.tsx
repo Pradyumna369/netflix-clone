@@ -139,12 +139,12 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                         present ? 
                         <button onClick={handleRemoveFromList} className="relative group cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
                             <img src="check.png" className="w-6 h-6"/>
-                            <span className="absolute -top-10 left-1 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Remove from MyList</span>
+                            <span className="absolute -top-8 -left-10 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Remove from My List</span>
                         </button>
                         :
                         <button onClick={handleAddToMyList} className="relative group cursor-pointer">
                             <img src="add-round-outline-white-icon.png" className="w-7 h-7 mr-2"/>
-                            <span className="absolute -top-10 left-1 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Add to MyList</span>
+                            <span className="absolute -top-8 -left-10 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Add to My List</span>
                         </button>
                     }
                     <img src="_.jpeg" className="w-7 h-7"/>

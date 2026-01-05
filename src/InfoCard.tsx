@@ -59,12 +59,14 @@ const InfoCard = ({movie, setShowInfo}: {movie:Movie, setShowInfo:(val: boolean)
                         </CustomLink>
                         {
                             present ? 
-                            <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-9 h-9 rounded-full mx-2 flex items-center justify-center">
+                            <button onClick={handleRemoveFromList} className="relative group cursor-pointer bg-white w-9 h-9 rounded-full mx-2 flex items-center justify-center">
                                 <img src="check.png" className="w-8 h-8"/>
+                                <span className="absolute -bottom-8 -left-10 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Remove from My List</span>
                             </button>
                             :
-                            <button onClick={handleAddToMyList} className="cursor-pointer w-9 h-9 mx-2">
+                            <button onClick={handleAddToMyList} className="relative group cursor-pointer w-9 h-9 mx-2">
                                 <img src="add-round-outline-white-icon.png" className="w-9 h-9"/>
+                                <span className="absolute -bottom-8 -left-10 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm invisible group-hover:visible">Add to My List</span>
                             </button>
                         }
                         <img src="like.png" className="w-9 h-9"/>
