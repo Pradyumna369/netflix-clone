@@ -33,12 +33,17 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
     const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
     const muted = useVideo((state:any) => state.muted);
     const setMuted = useVideo((state:any) => state.setMuted);
+    const [displayMessage, setDisplayMessage] = useState<boolean>(false);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
+        setDisplayMessage(true)
+        setTimeout(() => setDisplayMessage(false), 2000)
     };
 
     const handleRemoveFromList = () => {
         removeFromMyList(currentMovie);
+        setDisplayMessage(true)
+        setTimeout(() => setDisplayMessage(false), 2000)
     };
 
     useEffect(() => {
@@ -130,22 +135,31 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                     </div>
                 </div>
             }
-            <div className="text-white flex justify-between mt-3 px-3 mb-3">
-                <div className="flex">
+            <div className="text-white flex justify-between mt-3 px-3 mb-3 items-center">
+                <div className="flex items-center">
                     <CustomLink to="/play">
                         <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
                     </CustomLink>
                     {
                         present ? 
-                        <button onClick={handleRemoveFromList} className="cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
+                        <button onClick={handleRemoveFromList} className=" relative cursor-pointer bg-white w-7 h-7 rounded-full mr-2 flex items-center justify-center">
                             <img src="check.png" className="w-6 h-6"/>
+                            {
+                                displayMessage ? 
+                                    <span className="absolute -top-10 left-1 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm">Added to MyList</span>
+                                    : ""
+                            }
                         </button>
                         :
-                        <button onClick={handleAddToMyList} className="cursor-pointer">
+                        <button onClick={handleAddToMyList} className="relative cursor-pointer">
                             <img src="add-round-outline-white-icon.png" className="w-7 h-7 mr-2"/>
+                            {
+                                displayMessage ? 
+                                    <span className="absolute -top-10 left-1 text-xs w-35 ml-1 bg-gray-100 text-black font-semibold p-1 rounded-sm">Removed MyList</span>
+                                    : ""
+                            }
                         </button>
                     }
-                    
                     <img src="_.jpeg" className="w-7 h-7"/>
                 </div>
                 <button className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/50 cursor-pointer"
