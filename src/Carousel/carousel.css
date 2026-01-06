@@ -1,0 +1,115 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+.carousel {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.handle {
+    width: 3%;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    z-index: 10;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    color: transparent;
+    font-size: 2.5rem;
+    transition: background-color 150ms ease-in-out;
+}
+
+.handle:hover {
+    background-color: rgb(0, 0, 0, 0.7);
+}
+
+.carousel:hover .arrow {
+    transition: transform 150ms ease-in-out;
+    color: white;  
+}
+
+.handle:hover .arrow {
+    transform: scale(1.2);
+}
+
+.left-handle {
+    margin-right: 0.25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.right-handle {
+    margin-left: 0.25rem;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.slider {
+    --items-per-screen: 3;
+    --slider-index:0;
+    display: flex;
+    width: 94%;
+    transform: translateX(calc(var(--slider-index) * -100%));
+    transition: transform 500ms ease-in-out;
+}
+
+.slider > div {
+    flex: 0 0 calc(100% / var(--items-per-screen));
+    max-width: calc(100% / var(--items-per-screen));
+    padding: .25rem;
+    border-radius: 0.5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+}
+
+.title {
+    margin-left: 3%;
+    padding-left: .25rem;
+}
+
+.progress-bar {
+    display: flex;
+    gap: 0.2rem;
+    margin-right: 2rem;
+    align-items: center;
+}
+
+.progress-item {
+    flex: 0 0 1rem;
+    height: 0.1rem;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.progress-item.active{
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 1000px){
+    .slider {
+        --items-per-screen: 3;
+    }
+}
+
+@media (min-width: 1200px){
+    .slider {
+        --items-per-screen: 4;
+    }
+}
+
+@media (min-width: 1400px){
+    .slider {
+        --items-per-screen: 5;
+    }
+}
+
+@media (min-width: 1600px){
+    .slider {
+        --items-per-screen: 6;
+    }
+}
+
