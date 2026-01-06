@@ -64,7 +64,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
 
     useEffect(() => {
         setStartVideo(false);
-        const timer = setTimeout(() => setStartVideo(true), 500);
+        const timer = setTimeout(() => setStartVideo(true), 800);
         return () => clearTimeout(timer);
     }, [currentMovie]);
 

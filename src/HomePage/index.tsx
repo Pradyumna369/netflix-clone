@@ -1,11 +1,12 @@
 import Header from "../Header";
 import Videos from "../Videos";
 import useVideo from "../store";
-import { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState, useLayoutEffect} from "react";
 import VideoCard from "../Videos/VideoCard";
 import CustomLink from "../CustomLink";
 import InfoCard from "../InfoCard";
 import type { Movie } from "../Movie";
+import moviesList from "../data";
 
 const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
     const mainMovie = movie;
@@ -13,13 +14,13 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const navigating = useVideo((state:any) => state.navigating);
     const setNavigating = useVideo((state:any) => state.setNavigating);
     const currentElement = useVideo((state:any) => state.currentElement);
-    const allVideos = useVideo((state:any) => state.allMovies)
     const playVideo = useVideo((state:any) => state.playVideo);
     const vidRef = useRef(null);
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
     const [showInfo, setShowInfo] = useState(false);
     const [infoMovie, setInfoMovie] = useState({} as Movie);
+    const allVideos = moviesList();
 
     useEffect(() => {
         if (playingVideo) {
@@ -34,6 +35,10 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
         if (!endedVideo)
             setTimeout(() => setPlayingVideo(true), 300);
     }, []);
+
+    useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
     
   return (
     <div>

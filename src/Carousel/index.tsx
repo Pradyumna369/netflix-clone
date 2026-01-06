@@ -5,7 +5,13 @@ import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
 import type { Movie } from "../Movie";
 
-const Carousel = ({data, row}:{data: Movie[], row: number}) => {
+type CarouselProps = {
+    genre: string;
+    data: Movie[];
+    row: number;
+}
+
+const Carousel = ({genre, data, row}: CarouselProps) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -16,7 +22,7 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
     const TRANSITION_MS = 500;
     const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
 
-    useEffect(() => { 
+    useEffect(() => {
         const slider = sliderRef.current
         if (!slider) return;
         setItemCount(slider.children.length);
@@ -30,10 +36,9 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
         window.addEventListener("resize", throttleProgressBar);
 
         return () => {
-            window.scrollTo(0,0);
             window.removeEventListener("resize", throttleProgressBar);
         }
-    }, [data]);
+    }, []);
 
     useEffect(() => {
         if (sliderIndex >= progressBarItemCount) {
@@ -68,7 +73,7 @@ const Carousel = ({data, row}:{data: Movie[], row: number}) => {
     return(
         <div className="row mb-10">
         <div className="header">
-            <h3 className="title text-white justify-between">Title</h3>
+            <p className="title text-white font-semibold text-xl">{genre}</p>
             <div className="progress-bar">
                 {
                     Array.from({length: progressBarItemCount}).map((_,i) => (

@@ -4,7 +4,6 @@ import PlayMovie from "./PlayMovie";
 import MyList from "./MyList";
 import { useState } from "react";
 import "./App.css";
-import InfoCard from "./InfoCard";
 import movies from "./Database";
 import type { Movie } from "./Movie";
 
@@ -18,7 +17,6 @@ const App = () => {
           <Route index element={<HomePage movie={movie} endedVideo={endedVideo} setEndedVideo={setEndedVideo}/>}/>
           <Route path="/play" element={<PlayMovie/>}/>
           <Route path="/myList" element={<MyList/>} />
-          <Route path="/info" element={<InfoCard movie={movie}/>} />
         </Routes>
       </BrowserRouter>
     </>

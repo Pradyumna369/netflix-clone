@@ -13,7 +13,7 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
     let rect = videoRef.current?.getBoundingClientRect(); 
     let y = rect?.y + window.scrollY;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
-    setTimeout(() => setPlayVideo(true), 300);
+    setTimeout(() => setPlayVideo(true), 500);
   };
 
   return (
