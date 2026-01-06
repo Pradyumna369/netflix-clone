@@ -1,8 +1,8 @@
 import type  { Movie }  from "../Movie.ts";
 import useVideo from "../store";
-import {useRef, useState, useEffect} from "react";
+import {useRef} from "react";
 
-const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
+const MovieCard = ({ movie }: { movie: Movie }) => {
   const videoRef = useRef<HTMLImageElement | null>(null);
   const setCoordinates = useVideo((state: any) => state.setCoordinates);
   const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
@@ -10,7 +10,8 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
 
   const handleMouseEnter = () => {
     setCurrentMovie(movie);
-    let rect = videoRef.current?.getBoundingClientRect(); 
+    const rect = videoRef.current?.getBoundingClientRect(); 
+    if (!rect) return
     let y = rect?.y + window.scrollY;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
     setTimeout(() => setPlayVideo(true), 500);
@@ -39,7 +40,6 @@ const MovieCard = ({ movie, index }: { movie: Movie; index: string }) => {
                 {movie.subTitle}
                 </p>
             </div>
-
     </div>
   );
 };

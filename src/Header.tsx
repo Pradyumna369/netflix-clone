@@ -29,7 +29,9 @@ const Header = () => {
             />
           </Link>
 
-          <p className="px-3 text-sm text-white font-semibold">Home</p>
+          <Link to="/">
+            <p className="px-3 text-sm text-white font-semibold">Home</p>
+          </Link>
           <p className="px-3 text-sm text-white">Shows</p>
           <p className="px-3 text-sm text-white">Movies</p>
           <p className="px-3 text-sm text-white">Games</p>

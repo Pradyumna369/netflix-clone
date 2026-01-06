@@ -101,7 +101,7 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
                     <div key={index}
                     onMouseEnter={() => setCurrentElement(`${row} ${index}`)}
                     >
-                        <MovieCard movie={movie} index={`${row} ${index}`}/>
+                        <MovieCard movie={movie}/>
                         </div>
                     ))}
             </div>

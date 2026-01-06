@@ -15,7 +15,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const setNavigating = useVideo((state:any) => state.setNavigating);
     const currentElement = useVideo((state:any) => state.currentElement);
     const playVideo = useVideo((state:any) => state.playVideo);
-    const vidRef = useRef(null);
+    const vidRef = useRef<HTMLVideoElement | null>(null);
     const muted = useVideo((state: any) => state.muted);
     const setMuted = useVideo((state: any) => state.setMuted);
     const [showInfo, setShowInfo] = useState(false);
@@ -23,17 +23,20 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const allVideos = moviesList();
 
     useEffect(() => {
+        const video = vidRef.current;
+        if (!video) return;
+        if (!playingVideo) return;
         if (playingVideo) {
             if (currentElement === ""){
-            vidRef.current.play();
-        } else if(currentElement !== ""){
-            vidRef.current.pause();
-        }
-    }}, [currentElement]);
+                video.play();
+            } else if(currentElement !== ""){
+                video.pause();
+            }
+    }}, [currentElement, playingVideo]);
 
     useEffect(() => {
         if (!endedVideo)
-            setTimeout(() => setPlayingVideo(true), 300);
+            setTimeout(() => setPlayingVideo(true), 500);
     }, []);
 
     useLayoutEffect(() => {
@@ -109,7 +112,9 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                                 : endedVideo ?
                                 <button onClick={() => {
                                     setPlayingVideo(true)
-                                    vidRef.current.play()
+                                    const video = vidRef.current;
+                                    if (!video) return;
+                                    video.play()
                                     }} className={`absolute right-0 w-10 h-10 bg-transparent rounded-full border border-white flex justify-center items-center`}>
                                     <img src="replay.png" className="w-6 h-6"/>
                                 </button> : ""

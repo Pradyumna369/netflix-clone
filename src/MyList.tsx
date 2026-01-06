@@ -14,11 +14,17 @@ const MyList = () => {
         <ul className="w-screen h-full p-10 flex flex-wrap text-white items-start">{ 
             myList.map((movie: Movie, index: string) => 
               <li key={index} className="h-35 aspect-[16/9] m-1 mb-15">
-                <MovieCard movie={movie} index={index} />
+                <MovieCard movie={movie}/>
               </li>
-          )
-          }
+          )}
         </ul>
+        {
+          myList.length === 0&& (
+            <div className="absolute text-white text-2xl mt-4 translate-x-1/2">
+              List is empty!!!
+            </div>
+          )
+        }
           {playVideo ?
                       <VideoCard/> : <></>
           }

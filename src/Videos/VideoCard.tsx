@@ -3,10 +3,15 @@ import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import CustomLink from "../CustomLink";
 import type { Movie } from "../Movie";
 
-const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: 
-    {setShowInfo:(val:boolean) => void, setInfoMovie:(movie:Movie) => void, setNavigating:(val:boolean) => void,
-        setEndedVideo:(val:boolean) => void, setPlayingVideo:(val:boolean) => void
-    }) => {
+type VideoCardProps = {
+    setShowInfo?: (val: boolean) => void;
+    setInfoMovie?: (movie: Movie) => void;
+    setNavigating?: (val: boolean) => void;
+    setEndedVideo?: (val: boolean) => void;
+    setPlayingVideo?: (val: boolean) => void;
+}
+
+const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: VideoCardProps) => {
     const coordinates = useVideo((state:any) => state.coordinates);
     const cardRef = useRef<HTMLDivElement | null>(null);
     const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
@@ -151,6 +156,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                 </div>
                 <button className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/50 cursor-pointer"
                 onClick={() => {
+                    if (!setShowInfo || !setInfoMovie || !setNavigating || !setPlayingVideo || !setEndedVideo) return;
                     setShowInfo(true)
                     setInfoMovie(currentMovie)
                     setNavigating(true)
