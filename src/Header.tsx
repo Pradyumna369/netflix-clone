@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Header = () => {
@@ -21,24 +21,42 @@ const Header = () => {
 
       <div className="relative flex items-center justify-between px-[3%] bg-linear-to-b from-black to-transparent">
         <div className="flex items-center flex-none">
-          <Link to="/">
+          <NavLink to="/" end>
+          {({ isActive }) => (
             <img
               src="Netflix_Logo_RGB.png"
               alt="NETFLIX"
-              className="w-35 pr-7 py-2"
+              className={`w-35 pr-7 py-2 ${
+                isActive ? "opacity-100" : "opacity-80"
+              }`}
             />
-          </Link>
+          )} 
+          </NavLink>
 
-          <Link to="/">
-            <p className="px-3 text-sm text-white font-semibold">Home</p>
-          </Link>
+          <NavLink to="/" end>
+          {
+            ({ isActive }) => (
+              <p className={`px-3 text-sm text-white w-15
+                ${isActive ? "font-semibold" : ""}
+                `}>Home</p>
+            )
+          }
+            
+          </NavLink>
           <p className="px-3 text-sm text-white">Shows</p>
           <p className="px-3 text-sm text-white">Movies</p>
           <p className="px-3 text-sm text-white">Games</p>
           <p className="px-3 text-sm text-white">New & Popular</p>
-          <Link to="/myList">
-            <p className="px-3 text-sm text-white">My List</p>
-          </Link>
+          <NavLink to="/myList">
+          {
+            ({ isActive }) => (
+              <p className={`px-3 text-sm text-white w-20
+                ${isActive ? "font-semibold" : ""}
+                `}>My List</p>
+            )
+          }
+            
+          </NavLink>
           <p className="px-3 text-sm text-white">Browse by languages</p>
         </div>
 
