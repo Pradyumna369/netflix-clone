@@ -21,7 +21,9 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const setMuted = useVideo((state: StoreState) => state.setMuted);
     const [showInfo, setShowInfo] = useState(false);
     const [infoMovie, setInfoMovie] = useState({} as Movie);
+    const initialEndedRef = useRef(endedVideo);
     const allVideos = moviesList();
+
 
     useEffect(() => {
         const video = vidRef.current;
@@ -36,8 +38,12 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     }}, [currentElement, playingVideo]);
 
     useEffect(() => {
-        if (!endedVideo)
-            setTimeout(() => setPlayingVideo(true), 500);
+        if (!initialEndedRef.current){
+            const timer = setTimeout(() => {
+                setPlayingVideo(true)
+            }, 500);   
+        return () => clearTimeout(timer);
+        }     
     }, []);
 
     useLayoutEffect(() => {
