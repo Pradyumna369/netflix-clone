@@ -37,7 +37,7 @@ const useVideo = create<StoreState>((set) => ({
     ])}
     }),
     myList: [] as Movie[],
-    addToMyList: (movie: Movie) => set((state:any) => {
+    addToMyList: (movie: Movie) => set((state:StoreState) => {
         if (state.myList.includes(movie)) {
             console.log("movie already present in the list");
             return {};
@@ -46,7 +46,7 @@ const useVideo = create<StoreState>((set) => ({
         return {myList: newList}
     }),
 
-    removeFromMyList: (movie: Movie) => set((state: any) => {
+    removeFromMyList: (movie: Movie) => set((state: StoreState) => {
         const newList = state.myList.filter((film: Movie) => film !== movie);
         return {myList: newList};
     }),

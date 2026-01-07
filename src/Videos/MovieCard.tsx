@@ -1,12 +1,13 @@
 import type  { Movie }  from "../Movie.ts";
 import useVideo from "../store";
 import {useRef} from "react";
+import type StoreState from "../StoreState.ts";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
   const videoRef = useRef<HTMLImageElement | null>(null);
-  const setCoordinates = useVideo((state: any) => state.setCoordinates);
-  const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
-  const setCurrentMovie = useVideo((state: any) => state.setCurrentMovie);
+  const setCoordinates = useVideo((state: StoreState) => state.setCoordinates);
+  const setPlayVideo = useVideo((state: StoreState) => state.setPlayVideo);
+  const setCurrentMovie = useVideo((state: StoreState) => state.setCurrentMovie);
 
   const handleMouseEnter = () => {
     setCurrentMovie(movie);

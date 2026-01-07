@@ -2,6 +2,7 @@ import useVideo from "../store";
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import CustomLink from "../CustomLink";
 import type { Movie } from "../Movie";
+import type StoreState from "../StoreState";
 
 type VideoCardProps = {
     setShowInfo?: (val: boolean) => void;
@@ -12,42 +13,41 @@ type VideoCardProps = {
 }
 
 const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: VideoCardProps) => {
-    const coordinates = useVideo((state:any) => state.coordinates);
+    const coordinates = useVideo((state: StoreState) => state.coordinates);
     const cardRef = useRef<HTMLDivElement | null>(null);
-    const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
+    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
     const x = coordinates.get("x");
     const y = coordinates.get("y");
     const width = coordinates.get("width");
     const height = coordinates.get("height");
     const [startVideo, setStartVideo] = useState(false);
-    const removeCoordinates = useVideo((state: any) => state.removeCoordinates);
-    const currentMovie = useVideo((state:any) => state.currentMovie);
-    const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
-    const setCurrentMovie = useVideo((state:any) => state.setCurrentMovie);
+    const removeCoordinates = useVideo((state: StoreState) => state.removeCoordinates);
+    const currentMovie = useVideo((state: StoreState) => state.currentMovie);
+    const setPlayVideo = useVideo((state: StoreState) => state.setPlayVideo);
+    const setCurrentMovie = useVideo((state: StoreState) => state.setCurrentMovie);
     const [expanded, setExpanded] = useState(false);
     const [displayMute, setDisplayMute] = useState(true);
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
         setCurrentElement("");
-        setCurrentMovie({});
+        setCurrentMovie({} as Movie);
     };
-    const myList = useVideo((state:any) => state.myList);
+    const myList = useVideo((state: StoreState) => state.myList);
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
-    const addToMyList = useVideo((state:any) => state.addToMyList);
-    const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
-    const muted = useVideo((state:any) => state.muted);
-    const setMuted = useVideo((state:any) => state.setMuted);
+    const addToMyList = useVideo((state: StoreState) => state.addToMyList);
+    const removeFromMyList = useVideo((state: StoreState) => state.removeFromMyList);
+    const muted = useVideo((state: StoreState) => state.muted);
+    const setMuted = useVideo((state: StoreState) => state.setMuted);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
     };
-
     const handleRemoveFromList = () => {
         removeFromMyList(currentMovie);
     };
 
     useEffect(() => {
-        const muteTimer = [] as any;
+        const muteTimer:Array<ReturnType<typeof setTimeout>> = [];
         const handleMouseMove = (e: MouseEvent) => {
             if (!cardRef.current) return;
             setDisplayMute(true);
@@ -165,7 +165,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                     removeCoordinates();
                     setPlayVideo(false);
                     setCurrentElement("");
-                    setCurrentMovie({});
+                    setCurrentMovie({} as Movie);
                     }}
                     >
                     <img src="down_arrow.png" className="w-5 h-5"/>

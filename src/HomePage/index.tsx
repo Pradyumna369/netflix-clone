@@ -7,17 +7,18 @@ import CustomLink from "../CustomLink";
 import InfoCard from "../InfoCard";
 import type { Movie } from "../Movie";
 import moviesList from "../data";
+import type StoreState from "../StoreState";
 
 const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: boolean, setEndedVideo: (val:boolean) => void}) => {
     const mainMovie = movie;
     const [playingVideo, setPlayingVideo] = useState(false);
-    const navigating = useVideo((state:any) => state.navigating);
-    const setNavigating = useVideo((state:any) => state.setNavigating);
-    const currentElement = useVideo((state:any) => state.currentElement);
-    const playVideo = useVideo((state:any) => state.playVideo);
+    const navigating = useVideo((state: StoreState) => state.navigating);
+    const setNavigating = useVideo((state: StoreState) => state.setNavigating);
+    const currentElement = useVideo((state: StoreState) => state.currentElement);
+    const playVideo = useVideo((state: StoreState) => state.playVideo);
     const vidRef = useRef<HTMLVideoElement | null>(null);
-    const muted = useVideo((state: any) => state.muted);
-    const setMuted = useVideo((state: any) => state.setMuted);
+    const muted = useVideo((state: StoreState) => state.muted);
+    const setMuted = useVideo((state: StoreState) => state.setMuted);
     const [showInfo, setShowInfo] = useState(false);
     const [infoMovie, setInfoMovie] = useState({} as Movie);
     const allVideos = moviesList();

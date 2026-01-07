@@ -1,16 +1,17 @@
 import type { Movie } from "./Movie";
 import CustomLink from "./CustomLink";
 import useVideo from "./store";
+import type StoreState from "./StoreState";
 
 const InfoCard = ({movie, setShowInfo}: {movie:Movie, setShowInfo:(val: boolean) => void}) => {
-    const myList = useVideo((state:any) => state.myList);
-    const currentMovie = useVideo((state:any) => state.currentMovie);
+    const myList = useVideo((state: StoreState) => state.myList);
+    const currentMovie = useVideo((state: StoreState) => state.currentMovie);
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
-    const addToMyList = useVideo((state:any) => state.addToMyList);
-    const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
-    const muted = useVideo((state: any) => state.muted);
-    const setMuted = useVideo((state: any) => state.setMuted);
-    const setNavigating = useVideo((state:any) => state.setNavigating);
+    const addToMyList = useVideo((state: StoreState) => state.addToMyList);
+    const removeFromMyList = useVideo((state: StoreState) => state.removeFromMyList);
+    const muted = useVideo((state: StoreState) => state.muted);
+    const setMuted = useVideo((state: StoreState) => state.setMuted);
+    const setNavigating = useVideo((state: StoreState) => state.setNavigating);
 
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
@@ -123,7 +124,7 @@ const InfoCard = ({movie, setShowInfo}: {movie:Movie, setShowInfo:(val: boolean)
                 <div id="cast" className="mb-3">
                     <span className="text-gray-500">Cast:</span>
                     {
-                        movie.cast.map((member, index) => {
+                        movie.cast.map((member) => {
                             return " " + member + ",";
                         }
                         )
