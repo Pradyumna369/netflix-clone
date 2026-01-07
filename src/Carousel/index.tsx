@@ -4,6 +4,7 @@ import throttle from "lodash/throttle";
 import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
 import type { Movie } from "../Movie";
+import type StoreState from "../StoreState";
 
 type CarouselProps = {
     genre: string;
@@ -20,7 +21,7 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
     const progressBarItemCount = itemsPerScreen > 0 ? 
         Math.ceil(itemCount / itemsPerScreen): 0;
     const TRANSITION_MS = 500;
-    const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
+    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
 
     useEffect(() => {
         const slider = sliderRef.current
@@ -30,21 +31,18 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
                                     .getPropertyValue("--items-per-screen"));
         setItemsPerScreen(Number.isNaN(value) ? 1 : value);
         const throttleProgressBar = throttle(() => {
-        setItemsPerScreen(parseInt(getComputedStyle(slider)
-                                .getPropertyValue("--items-per-screen")));
+            setItemsPerScreen(parseInt(getComputedStyle(slider)
+                                    .getPropertyValue("--items-per-screen")));
+            if (sliderIndex >= progressBarItemCount) {
+            setSliderIndex(Math.max(progressBarItemCount - 1, 0));
+            }
         }, 200);
         window.addEventListener("resize", throttleProgressBar);
 
         return () => {
             window.removeEventListener("resize", throttleProgressBar);
         }
-    }, []);
-
-    useEffect(() => {
-        if (sliderIndex >= progressBarItemCount) {
-            setSliderIndex(Math.max(progressBarItemCount - 1, 0));
-        }
-    },[progressBarItemCount]);
+    });
 
     useEffect(() => {
         const timeout = setTimeout(() => {

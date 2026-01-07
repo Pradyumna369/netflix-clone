@@ -47,13 +47,13 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
     };
 
     useEffect(() => {
-        var muteTimer = [] as any;
+        const muteTimer = [] as any;
         const handleMouseMove = (e: MouseEvent) => {
             if (!cardRef.current) return;
             setDisplayMute(true);
             
             muteTimer.push(setTimeout(() => setDisplayMute(false), 2000));
-            for (var i = 0; i < muteTimer.length - 1; i++) {
+            for (let i = 0; i < muteTimer.length - 1; i++) {
                 clearTimeout(muteTimer[i]);
             }
 
@@ -184,7 +184,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
             </div>
             <div className="text-white text-sm flex text-xs pl-2 gap-1 mt-3 mb-3">
                 {
-                    currentMovie.tags?.slice(0, 2).map((tag: String, index:number) => {
+                    currentMovie.tags?.slice(0, 2).map((tag: string, index:number) => {
                         return(
                             <div key={index}>
                                 {`・${tag}`}

@@ -12,7 +12,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
     setCurrentMovie(movie);
     const rect = videoRef.current?.getBoundingClientRect(); 
     if (!rect) return
-    let y = rect?.y + window.scrollY;
+    const y = rect?.y + window.scrollY;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
     setTimeout(() => setPlayVideo(true), 500);
   };
