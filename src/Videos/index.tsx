@@ -1,9 +1,10 @@
 import Carousel from "../Carousel";
 import useVideo from "../store";
 import type { GenreRow } from "../data";
+import type StoreState from "../StoreState";
 
 const Videos = ({data}:{data:GenreRow[]}) => {
-  const navigating = useVideo((state:any) => state.navigating)
+  const navigating = useVideo((state:StoreState) => state.navigating)
 
     return (
     <div className="relative">

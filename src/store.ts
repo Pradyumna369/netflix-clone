@@ -1,8 +1,9 @@
 import {create} from 'zustand';
 import type { Movie } from './Movie';
 import movies from './Database';
+import type StoreState from './StoreState';
 
-const useVideo = create((set) => ({
+const useVideo = create<StoreState>((set) => ({
     allMovies: movies,
     currentElement: "",
     setCurrentElement: (element: string) => set(({currentElement:element})),
@@ -18,7 +19,7 @@ const useVideo = create((set) => ({
     setCurrentMovie: (movie : Movie) => set(({currentMovie: movie})),
     setPlayVideo: (val: boolean) => set({playVideo:val}),
     setCoordinates: (x: number, y: number, width: number, height: number) => 
-        set((state: any) => {
+        set((state: StoreState) => {
         const newCoordinates = new Map(state.coordinates)
         newCoordinates.set("x", x)
         newCoordinates.set("y", y)
@@ -26,7 +27,7 @@ const useVideo = create((set) => ({
         newCoordinates.set("height", height)
         return {coordinates: newCoordinates}
     }),
-    removeCoordinates: () => set((state:any) => {
+    removeCoordinates: () => set(() => {
         return {coordinates: new Map([
         ["x",0],
         ["y",0],
@@ -34,9 +35,9 @@ const useVideo = create((set) => ({
         ["height",0]
 
     ])}
-    },),
+    }),
     myList: [] as Movie[],
-    addToMyList: (movie: Movie) => set((state:any) => {
+    addToMyList: (movie: Movie) => set((state:StoreState) => {
         if (state.myList.includes(movie)) {
             console.log("movie already present in the list");
             return {};
@@ -45,8 +46,8 @@ const useVideo = create((set) => ({
         return {myList: newList}
     }),
 
-    removeFromMyList: (movie: Movie) => set((state: any) => {
-        const newList = state.myList.filter((film: Movie, index: string) => film !== movie);
+    removeFromMyList: (movie: Movie) => set((state: StoreState) => {
+        const newList = state.myList.filter((film: Movie) => film !== movie);
         return {myList: newList};
     }),
 

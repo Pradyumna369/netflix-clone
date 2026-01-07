@@ -1,9 +1,10 @@
 import "./carousel.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import throttle from "lodash/throttle";
 import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
 import type { Movie } from "../Movie";
+import type StoreState from "../StoreState";
 
 type CarouselProps = {
     genre: string;
@@ -20,31 +21,37 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
     const progressBarItemCount = itemsPerScreen > 0 ? 
         Math.ceil(itemCount / itemsPerScreen): 0;
     const TRANSITION_MS = 500;
-    const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
+    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
 
-    useEffect(() => {
+    // Initial layout measurement
+    useLayoutEffect(() => {
         const slider = sliderRef.current
         if (!slider) return;
         setItemCount(slider.children.length);
         const value = parseInt(getComputedStyle(slider)
                                     .getPropertyValue("--items-per-screen"));
         setItemsPerScreen(Number.isNaN(value) ? 1 : value);
-        const throttleProgressBar = throttle(() => {
-        setItemsPerScreen(parseInt(getComputedStyle(slider)
-                                .getPropertyValue("--items-per-screen")));
+    },[])
+
+    // Effect to handle window resizing
+    useEffect(() => {
+        const slider = sliderRef.current
+        if (!slider) return;
+        const handleResize = throttle(() => {
+            const value = parseInt(
+                getComputedStyle(slider).getPropertyValue("--items-per-screen")
+            )
+            setItemsPerScreen(Number.isNaN(value) ? 1 : value);
+            if (sliderIndex >= progressBarItemCount) {
+                setSliderIndex(Math.max(progressBarItemCount - 1, 0));
+            }
         }, 200);
-        window.addEventListener("resize", throttleProgressBar);
+        window.addEventListener("resize", handleResize);
 
         return () => {
-            window.removeEventListener("resize", throttleProgressBar);
+            window.removeEventListener("resize", handleResize);
         }
-    }, []);
-
-    useEffect(() => {
-        if (sliderIndex >= progressBarItemCount) {
-            setSliderIndex(Math.max(progressBarItemCount - 1, 0));
-        }
-    },[progressBarItemCount]);
+    }, [sliderIndex, progressBarItemCount]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {

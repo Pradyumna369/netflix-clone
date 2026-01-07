@@ -2,6 +2,7 @@ import useVideo from "../store";
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import CustomLink from "../CustomLink";
 import type { Movie } from "../Movie";
+import type StoreState from "../StoreState";
 
 type VideoCardProps = {
     setShowInfo?: (val: boolean) => void;
@@ -12,63 +13,43 @@ type VideoCardProps = {
 }
 
 const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: VideoCardProps) => {
-    const coordinates = useVideo((state:any) => state.coordinates);
+    const coordinates = useVideo((state: StoreState) => state.coordinates);
     const cardRef = useRef<HTMLDivElement | null>(null);
-    const setCurrentElement = useVideo((state:any) => state.setCurrentElement);
+    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
     const x = coordinates.get("x");
     const y = coordinates.get("y");
     const width = coordinates.get("width");
     const height = coordinates.get("height");
     const [startVideo, setStartVideo] = useState(false);
-    const removeCoordinates = useVideo((state: any) => state.removeCoordinates);
-    const currentMovie = useVideo((state:any) => state.currentMovie);
-    const setPlayVideo = useVideo((state:any) => state.setPlayVideo);
-    const setCurrentMovie = useVideo((state:any) => state.setCurrentMovie);
+    const removeCoordinates = useVideo((state: StoreState) => state.removeCoordinates);
+    const currentMovie = useVideo((state: StoreState) => state.currentMovie);
+    const setPlayVideo = useVideo((state: StoreState) => state.setPlayVideo);
+    const setCurrentMovie = useVideo((state: StoreState) => state.setCurrentMovie);
     const [expanded, setExpanded] = useState(false);
     const [displayMute, setDisplayMute] = useState(true);
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
         setCurrentElement("");
-        setCurrentMovie({});
+        setCurrentMovie({} as Movie);
     };
-    const myList = useVideo((state:any) => state.myList);
+    const myList = useVideo((state: StoreState) => state.myList);
     const present = myList.some((m: Movie) => m._id === currentMovie._id);
-    const addToMyList = useVideo((state:any) => state.addToMyList);
-    const removeFromMyList = useVideo((state: any) => state.removeFromMyList);
-    const muted = useVideo((state:any) => state.muted);
-    const setMuted = useVideo((state:any) => state.setMuted);
+    const addToMyList = useVideo((state: StoreState) => state.addToMyList);
+    const removeFromMyList = useVideo((state: StoreState) => state.removeFromMyList);
+    const muted = useVideo((state: StoreState) => state.muted);
+    const setMuted = useVideo((state: StoreState) => state.setMuted);
     const handleAddToMyList = () => {
         addToMyList(currentMovie);
     };
-
     const handleRemoveFromList = () => {
         removeFromMyList(currentMovie);
     };
 
-    useEffect(() => {
-        var muteTimer = [] as any;
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!cardRef.current) return;
-            setDisplayMute(true);
-            
-            muteTimer.push(setTimeout(() => setDisplayMute(false), 2000));
-            for (var i = 0; i < muteTimer.length - 1; i++) {
-                clearTimeout(muteTimer[i]);
-            }
-
-            // Checking if the cursor is over the same element or its children
-            if (!cardRef.current.contains(e.target as Node)) {
-                handleMouseLeave();
-            }
-        };
-
-        document.addEventListener("mousemove", handleMouseMove);
-        return () => document.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+    // Creating a timer ref which persists across renders
+    const muteTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
     useEffect(() => {
-        setStartVideo(false);
         const timer = setTimeout(() => setStartVideo(true), 800);
         return () => clearTimeout(timer);
     }, [currentMovie]);
@@ -90,8 +71,17 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                 left: x,
                 width: width,
             }}
-            onMouseLeave={handleMouseLeave}
+            onPointerLeave={handleMouseLeave}
             ref={cardRef}
+            onPointerMove={() => {
+                setDisplayMute(true);
+                if (muteTimerRef.current) {
+                    clearTimeout(muteTimerRef.current)
+                }
+                muteTimerRef.current = setTimeout(() => {
+                    setDisplayMute(false);
+                }, 2000);
+            }}
         >   
             {
                 startVideo ?
@@ -138,7 +128,11 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
             <div className="text-white flex justify-between mt-3 px-3 mb-3 items-center">
                 <div className="flex items-center">
                     <CustomLink to="/play">
-                        <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
+                        <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2" onClick={() => {
+                            removeCoordinates();
+                            setPlayVideo(false);
+                            setEndedVideo?.(true);
+                        }}/>
                     </CustomLink>
                     {
                         present ? 
@@ -165,7 +159,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                     removeCoordinates();
                     setPlayVideo(false);
                     setCurrentElement("");
-                    setCurrentMovie({});
+                    setCurrentMovie({} as Movie);
                     }}
                     >
                     <img src="down_arrow.png" className="w-5 h-5"/>
@@ -184,7 +178,7 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
             </div>
             <div className="text-white text-sm flex text-xs pl-2 gap-1 mt-3 mb-3">
                 {
-                    currentMovie.tags?.slice(0, 2).map((tag: String, index:number) => {
+                    currentMovie.tags?.slice(0, 2).map((tag: string, index:number) => {
                         return(
                             <div key={index}>
                                 {`・${tag}`}
