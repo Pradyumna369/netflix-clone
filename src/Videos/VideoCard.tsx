@@ -50,7 +50,6 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
     const muteTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
     useEffect(() => {
-        // setStartVideo(false);
         const timer = setTimeout(() => setStartVideo(true), 800);
         return () => clearTimeout(timer);
     }, [currentMovie]);
@@ -72,9 +71,9 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                 left: x,
                 width: width,
             }}
-            onMouseLeave={handleMouseLeave}
+            onPointerLeave={handleMouseLeave}
             ref={cardRef}
-            onMouseMove={() => {
+            onPointerMove={() => {
                 setDisplayMute(true);
                 if (muteTimerRef.current) {
                     clearTimeout(muteTimerRef.current)

@@ -8,6 +8,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   const setCoordinates = useVideo((state: StoreState) => state.setCoordinates);
   const setPlayVideo = useVideo((state: StoreState) => state.setPlayVideo);
   const setCurrentMovie = useVideo((state: StoreState) => state.setCurrentMovie);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null); 
 
   const handleMouseEnter = () => {
     setCurrentMovie(movie);
@@ -15,13 +16,23 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
     if (!rect) return
     const y = rect?.y + window.scrollY;
     setCoordinates(rect?.left, y, rect?.width, rect?.height);
-    setTimeout(() => setPlayVideo(true), 500);
+    hoverTimerRef.current = setTimeout(() => 
+      setPlayVideo(true), 500);
   };
+  
+  // Cancelling the timer if the mouse leaves the moviecard before the video starts playing
+  const handleMouseLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  }
 
   return (
     <div
       className="relative aspect-video overflow-hidden rounded-sm bg-black w-full cursor-pointer"
       onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
             <img
                 src={movie.imgUrl}

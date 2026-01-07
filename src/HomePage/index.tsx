@@ -42,7 +42,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
 
     useLayoutEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    }, []);
     
   return (
     <div>
