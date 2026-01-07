@@ -128,7 +128,11 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
             <div className="text-white flex justify-between mt-3 px-3 mb-3 items-center">
                 <div className="flex items-center">
                     <CustomLink to="/play">
-                        <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2"/>
+                        <img src="play-button-round-white-icon.png" className="w-7 h-7 mr-2" onClick={() => {
+                            removeCoordinates();
+                            setPlayVideo(false);
+                            setEndedVideo?.(true);
+                        }}/>
                     </CustomLink>
                     {
                         present ? 
