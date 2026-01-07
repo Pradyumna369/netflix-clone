@@ -46,29 +46,11 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
         removeFromMyList(currentMovie);
     };
 
-    useEffect(() => {
-        const muteTimer:Array<ReturnType<typeof setTimeout>> = [];
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!cardRef.current) return;
-            setDisplayMute(true);
-            
-            muteTimer.push(setTimeout(() => setDisplayMute(false), 2000));
-            for (let i = 0; i < muteTimer.length - 1; i++) {
-                clearTimeout(muteTimer[i]);
-            }
-
-            // Checking if the cursor is over the same element or its children
-            if (!cardRef.current.contains(e.target as Node)) {
-                handleMouseLeave();
-            }
-        };
-
-        document.addEventListener("mousemove", handleMouseMove);
-        return () => document.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+    // Creating a timer ref which persists across renders
+    const muteTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
     useEffect(() => {
-        setStartVideo(false);
+        // setStartVideo(false);
         const timer = setTimeout(() => setStartVideo(true), 800);
         return () => clearTimeout(timer);
     }, [currentMovie]);
@@ -92,6 +74,15 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
             }}
             onMouseLeave={handleMouseLeave}
             ref={cardRef}
+            onMouseMove={() => {
+                setDisplayMute(true);
+                if (muteTimerRef.current) {
+                    clearTimeout(muteTimerRef.current)
+                }
+                muteTimerRef.current = setTimeout(() => {
+                    setDisplayMute(false);
+                }, 2000);
+            }}
         >   
             {
                 startVideo ?

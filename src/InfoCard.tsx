@@ -104,7 +104,7 @@ const InfoCard = ({movie, setShowInfo}: {movie:Movie, setShowInfo:(val: boolean)
                     </div>
                     <div className="text-white flex pl-2 gap-1">
                     {
-                        movie.tags?.slice(0, 2).map((tag: String, index:number) => {
+                        movie.tags?.slice(0, 2).map((tag: string, index:number) => {
                             return(
                                 <div key={index}>
                                     {`・${tag}`}
