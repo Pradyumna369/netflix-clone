@@ -21,7 +21,6 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
     const progressBarItemCount = itemsPerScreen > 0 ? 
         Math.ceil(itemCount / itemsPerScreen): 0;
     const TRANSITION_MS = 500;
-    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
 
     // Initial layout measurement
     useLayoutEffect(() => {
@@ -105,9 +104,7 @@ const Carousel = ({genre, data, row}: CarouselProps) => {
             >
                     {
                 data.map((movie,index) => (
-                    <div key={index}
-                    onMouseEnter={() => setCurrentElement(`${row} ${index}`)}
-                    >
+                    <div key={index}>
                         <MovieCard movie={movie}/>
                         </div>
                     ))}
