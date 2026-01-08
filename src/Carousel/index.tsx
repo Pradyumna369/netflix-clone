@@ -1,18 +1,15 @@
 import "./carousel.css";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import throttle from "lodash/throttle";
-import useVideo from "../store";
 import MovieCard from "../Videos/MovieCard";
 import type { Movie } from "../Movie";
-import type StoreState from "../StoreState";
 
 type CarouselProps = {
     genre: string;
     data: Movie[];
-    row: number;
 }
 
-const Carousel = ({genre, data, row}: CarouselProps) => {
+const Carousel = ({genre, data}: CarouselProps) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
     const sliderRef = useRef<HTMLDivElement | null>(null);
