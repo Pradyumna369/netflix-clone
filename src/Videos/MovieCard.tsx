@@ -11,9 +11,6 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const previewStartedRef = useRef(false); 
   const removeCoordinates = useVideo((state: StoreState) => state.removeCoordinates);
-  const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
-
-
 
   const handleMouseEnter = () => {
     setCurrentMovie(movie);
@@ -38,10 +35,8 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
       clearTimeout(hoverTimerRef.current);
       hoverTimerRef.current = null;
     }
-
     removeCoordinates();
     setPlayVideo(false);
-    setCurrentElement("");
   }
 
   return (

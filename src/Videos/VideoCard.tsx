@@ -15,7 +15,6 @@ type VideoCardProps = {
 const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, setPlayingVideo}: VideoCardProps) => {
     const coordinates = useVideo((state: StoreState) => state.coordinates);
     const cardRef = useRef<HTMLDivElement | null>(null);
-    const setCurrentElement = useVideo((state: StoreState) => state.setCurrentElement);
     const x = coordinates.get("x");
     const y = coordinates.get("y");
     const width = coordinates.get("width");
@@ -30,7 +29,6 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
     const handleMouseLeave = () => {
         removeCoordinates();
         setPlayVideo(false);
-        setCurrentElement("");
         setCurrentMovie({} as Movie);
     };
     const myList = useVideo((state: StoreState) => state.myList);
@@ -158,7 +156,6 @@ const VideoCard = ({setShowInfo, setInfoMovie, setNavigating, setEndedVideo, set
                     setEndedVideo(true)
                     removeCoordinates();
                     setPlayVideo(false);
-                    setCurrentElement("");
                     setCurrentMovie({} as Movie);
                     }}
                     >

@@ -14,7 +14,6 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const [playingVideo, setPlayingVideo] = useState(false);
     const navigating = useVideo((state: StoreState) => state.navigating);
     const setNavigating = useVideo((state: StoreState) => state.setNavigating);
-    const currentElement = useVideo((state: StoreState) => state.currentElement);
     const playVideo = useVideo((state: StoreState) => state.playVideo);
     const vidRef = useRef<HTMLVideoElement | null>(null);
     const muted = useVideo((state: StoreState) => state.muted);
@@ -23,6 +22,8 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
     const [infoMovie, setInfoMovie] = useState({} as Movie);
     const initialEndedRef = useRef(endedVideo);
     const allVideos = moviesList();
+    const currentMovie = useVideo((state: StoreState) => state.currentMovie);
+    const setCurrentMovie = useVideo((state: StoreState) => state.setCurrentMovie);
 
 
     useEffect(() => {
@@ -30,24 +31,26 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
         if (!video) return;
         if (!playingVideo) return;
         if (playingVideo) {
-            if (currentElement === ""){
+            if (!currentMovie || !currentMovie._id){
+                console.log("movie is...", currentMovie);
                 video.play();
-            } else if(currentElement !== ""){
+            } else {
+                console.log("current movie is ... ", currentMovie);
                 video.pause();
             }
-    }}, [currentElement, playingVideo]);
+    }}, [currentMovie, playingVideo]);
 
     useEffect(() => {
         if (!initialEndedRef.current){
             const timer = setTimeout(() => {
                 setPlayingVideo(true)
-            }, 500);   
+            }, 500);
         return () => clearTimeout(timer);
         }     
     }, []);
 
     useLayoutEffect(() => {
-    window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
     }, []);
     
   return (
@@ -119,6 +122,7 @@ const HomePage = ({movie, endedVideo, setEndedVideo}:{movie: Movie, endedVideo: 
                                 : endedVideo ?
                                 <button onClick={() => {
                                     setPlayingVideo(true)
+                                    setCurrentMovie({} as Movie)
                                     const video = vidRef.current;
                                     if (!video) return;
                                     video.play()

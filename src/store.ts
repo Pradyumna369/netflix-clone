@@ -5,8 +5,6 @@ import type StoreState from './StoreState';
 
 const useVideo = create<StoreState>((set) => ({
     allMovies: movies,
-    currentElement: "",
-    setCurrentElement: (element: string) => set(({currentElement:element})),
     coordinates: new Map([
         ["x",0],
         ["y",0],
