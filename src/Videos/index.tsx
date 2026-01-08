@@ -10,12 +10,11 @@ const Videos = ({data}:{data:GenreRow[]}) => {
     <div className="relative">
         <ul>
             {
-            data.map((rowData,index) => (
+            data.map((rowData) => (
               <Carousel
                 key={rowData.genre}
                 genre={rowData.genre}
                 data={rowData.movies}
-                row={index}
               />    
             ))}
         </ul>
