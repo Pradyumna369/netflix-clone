@@ -2,8 +2,6 @@ import type { Movie } from "./Movie";
 
 export default interface StoreState {
     allMovies: Movie[],
-    currentElement: string,
-    setCurrentElement: (element: string) => void,
     coordinates: Map<string, number>
     playVideo: boolean,
     currentMovie: Movie,
