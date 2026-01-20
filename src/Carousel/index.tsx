@@ -9,6 +9,9 @@ type CarouselProps = {
     data: Movie[];
 }
 
+const TRANSITION_MS = 500;
+const RESIZE_THROTTLE_MS = 200;
+
 const Carousel = ({genre, data}: CarouselProps) => {
     const [sliderIndex, setSliderIndex] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -17,7 +20,6 @@ const Carousel = ({genre, data}: CarouselProps) => {
     const [itemsPerScreen, setItemsPerScreen] = useState(1);
     const progressBarItemCount = itemsPerScreen > 0 ? 
         Math.ceil(itemCount / itemsPerScreen): 0;
-    const TRANSITION_MS = 500;
 
     // Initial layout measurement
     useLayoutEffect(() => {
@@ -41,7 +43,7 @@ const Carousel = ({genre, data}: CarouselProps) => {
             if (sliderIndex >= progressBarItemCount) {
                 setSliderIndex(Math.max(progressBarItemCount - 1, 0));
             }
-        }, 200);
+        }, RESIZE_THROTTLE_MS);
         window.addEventListener("resize", handleResize);
 
         return () => {
